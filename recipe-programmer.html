@@ -528,21 +528,52 @@
             </div>
         </div>
 
+        <!-- Simple Programming Wizard -->
+        <div class="panel" style="background: linear-gradient(135deg, #ddd6fe 0%, #c7d2fe 100%); margin-bottom: 20px;">
+            <h2 style="color: #4c1d95;">🎯 QUICK PROGRAMMING WIZARD - Start Here!</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                <button onclick="showWizard('frozen')" style="background: white; border: 3px solid #2563eb; padding: 20px; border-radius: 10px; cursor: pointer; transition: all 0.3s;">
+                    <h3 style="color: #2563eb;">❄️ FROZEN FOOD</h3>
+                    <p>500°F • 100% Air • Adjust Time</p>
+                </button>
+                <button onclick="showWizard('fresh')" style="background: white; border: 3px solid #10b981; padding: 20px; border-radius: 10px; cursor: pointer; transition: all 0.3s;">
+                    <h3 style="color: #10b981;">🍖 FRESH FOOD</h3>
+                    <p>475°F • 80% Air • Adjust Time</p>
+                </button>
+                <button onclick="showWizard('reheat')" style="background: white; border: 3px solid #f59e0b; padding: 20px; border-radius: 10px; cursor: pointer; transition: all 0.3s;">
+                    <h3 style="color: #f59e0b;">♻️ REHEAT</h3>
+                    <p>425°F • 60% Air • 2:00</p>
+                </button>
+            </div>
+            
+            <div id="wizardInstructions" style="display: none; background: white; padding: 15px; border-radius: 8px; margin-top: 15px;">
+                <h3 id="wizardTitle" style="color: #2563eb; margin-bottom: 10px;"></h3>
+                <ol id="wizardSteps" style="line-height: 2;"></ol>
+            </div>
+        </div>
+
         <div class="main-grid">
             <!-- Left Panel - Recipe Builder -->
             <div class="panel">
                 <h2>Recipe Builder</h2>
 
-                <!-- Quick Templates -->
+                <!-- Quick Templates - YOUR RECIPES -->
                 <div class="quick-templates">
-                    <button class="template-btn" onclick="loadTemplate('pizza')">🍕 Pizza</button>
-                    <button class="template-btn" onclick="loadTemplate('chicken')">🍗 Chicken</button>
-                    <button class="template-btn" onclick="loadTemplate('burger')">🍔 Burger</button>
-                    <button class="template-btn" onclick="loadTemplate('fish')">🐟 Fish</button>
-                    <button class="template-btn" onclick="loadTemplate('vegetable')">🥦 Vegetables</button>
-                    <button class="template-btn" onclick="loadTemplate('dessert')">🍰 Dessert</button>
-                    <button class="template-btn" onclick="loadTemplate('bread')">🍞 Bread</button>
-                    <button class="template-btn" onclick="loadTemplate('pasta')">🍝 Pasta</button>
+                    <button class="template-btn" onclick="loadTemplate('turkeyLeg')" style="background: linear-gradient(135deg, #ef4444, #dc2626);">🍗 Turkey Leg</button>
+                    <button class="template-btn" onclick="loadTemplate('chickenWings')" style="background: linear-gradient(135deg, #ef4444, #dc2626);">🍗 Wings</button>
+                    <button class="template-btn" onclick="loadTemplate('fries')" style="background: linear-gradient(135deg, #f59e0b, #d97706);">🍟 Fries</button>
+                    <button class="template-btn" onclick="loadTemplate('bakedPotato')" style="background: linear-gradient(135deg, #f59e0b, #d97706);">🥔 Potato</button>
+                    <button class="template-btn" onclick="loadTemplate('eggRolls')">🥟 Egg Rolls</button>
+                    <button class="template-btn" onclick="loadTemplate('salmon')">🐟 Salmon</button>
+                    <button class="template-btn" onclick="loadTemplate('poppers')">🌶️ Poppers</button>
+                    <button class="template-btn" onclick="loadTemplate('reheat')" style="background: linear-gradient(135deg, #10b981, #059669);">♻️ Reheat</button>
+                    <button class="template-btn" onclick="loadTemplate('crispy')" style="background: linear-gradient(135deg, #10b981, #059669);">✨ Crispy</button>
+                    <button class="template-btn" onclick="loadTemplate('warm')" style="background: linear-gradient(135deg, #10b981, #059669);">🔥 Warm</button>
+                </div>
+                
+                <!-- Recipe Notes Display -->
+                <div id="recipeNotes" style="display: none; background: #fef3c7; padding: 10px; border-radius: 8px; margin-bottom: 15px; border-left: 4px solid #f59e0b;">
+                    <strong>📌 Recipe Notes:</strong> <span id="notesText"></span>
                 </div>
 
                 <!-- Recipe Information -->
@@ -661,59 +692,77 @@
         let stageCount = 1;
         let savedRecipes = JSON.parse(localStorage.getItem('turboChefRecipes') || '[]');
 
-        // Template recipes
+        // Template recipes - YOUR SPECIFIC RECIPES
         const templates = {
-            pizza: {
-                name: 'Classic Pizza',
+            turkeyLeg: {
+                name: 'Frozen Turkey Leg',
                 stages: [
-                    { temp: 450, time: 180, fan: 100, power: 75 }
-                ]
+                    { temp: 475, time: 1080, fan: 90, power: 50, rack: 'ON', event1: '70% @ 90% air', event2: '30% @ 100% air' }
+                ],
+                notes: 'Small: 18:00, Medium: 20:00, Large: 22:00'
             },
-            chicken: {
-                name: 'Crispy Chicken',
+            bakedPotato: {
+                name: 'Baked Potatoes',
                 stages: [
-                    { temp: 375, time: 120, fan: 80, power: 50 },
-                    { temp: 400, time: 60, fan: 100, power: 25 }
-                ]
+                    { temp: 500, time: 900, fan: 90, power: 50, rack: 'ON' }
+                ],
+                notes: '8oz: 15:00, 10oz: 18:00, 12oz: 20:00'
             },
-            burger: {
-                name: 'Perfect Burger',
+            fries: {
+                name: 'French Fries',
                 stages: [
-                    { temp: 425, time: 90, fan: 90, power: 60 }
-                ]
+                    { temp: 500, time: 210, fan: 100, power: 50, rack: 'ON' }
+                ],
+                notes: 'Shoestring: 3:00, Regular: 3:30, Steak: 5:00'
             },
-            fish: {
-                name: 'Grilled Fish',
+            eggRolls: {
+                name: 'Egg Rolls (1.5 oz)',
                 stages: [
-                    { temp: 350, time: 120, fan: 70, power: 40 }
-                ]
+                    { temp: 500, time: 240, fan: 100, power: 50, rack: 'ON' }
+                ],
+                notes: 'Spray with oil first! Space 1" apart, Max 6-8'
             },
-            vegetable: {
-                name: 'Roasted Vegetables',
+            chickenWings: {
+                name: 'Chicken Wings (Frozen)',
                 stages: [
-                    { temp: 375, time: 90, fan: 85, power: 30 }
-                ]
+                    { temp: 475, time: 840, fan: 90, power: 50, rack: 'ON', event1: '70% @ 90% air', event2: '30% @ 100% air' }
+                ],
+                notes: 'Frozen: 14:00, Thawed: 10:00 @ 85% air'
             },
-            dessert: {
-                name: 'Chocolate Cake',
+            salmon: {
+                name: 'Salmon Fillet',
                 stages: [
-                    { temp: 325, time: 180, fan: 60, power: 20 },
-                    { temp: 350, time: 60, fan: 70, power: 0 }
-                ]
+                    { temp: 450, time: 270, fan: 80, power: 40, rack: 'ON', event1: '70% @ 80% air', event2: '30% @ 60% air' }
+                ],
+                notes: 'Time: 4:00-5:00 depending on thickness'
             },
-            bread: {
-                name: 'Artisan Bread',
+            poppers: {
+                name: 'Bacon Jalapeño Poppers',
                 stages: [
-                    { temp: 400, time: 240, fan: 50, power: 25 },
-                    { temp: 425, time: 120, fan: 70, power: 0 }
-                ]
+                    { temp: 425, time: 450, fan: 70, power: 40, rack: 'ON', event1: '70% @ 70% air', event2: '30% @ 90% air' }
+                ],
+                notes: 'Use thin bacon! Time: 7:30'
             },
-            pasta: {
-                name: 'Baked Pasta',
+            reheat: {
+                name: 'REHEAT',
                 stages: [
-                    { temp: 350, time: 150, fan: 75, power: 45 },
-                    { temp: 400, time: 60, fan: 90, power: 0 }
-                ]
+                    { temp: 425, time: 120, fan: 60, power: 30, rack: 'ON' }
+                ],
+                notes: 'Universal reheat setting'
+            },
+            crispy: {
+                name: 'CRISPY',
+                stages: [
+                    { temp: 500, time: 90, fan: 100, power: 50, rack: 'ON' }
+                ],
+                notes: 'Make anything crispy'
+            },
+            warm: {
+                name: 'WARM',
+                stages: [
+                    { temp: 350, time: 180, fan: 40, power: 20, rack: 'ON' }
+                ],
+                notes: 'Keep food warm'
             }
         };
 
@@ -722,6 +771,14 @@
             if (!template) return;
 
             document.getElementById('recipeName').value = template.name;
+            
+            // Show recipe notes if available
+            if (template.notes) {
+                document.getElementById('recipeNotes').style.display = 'block';
+                document.getElementById('notesText').textContent = template.notes;
+            } else {
+                document.getElementById('recipeNotes').style.display = 'none';
+            }
             
             // Clear existing stages
             document.getElementById('cookingStages').innerHTML = '';
@@ -1056,6 +1113,80 @@
             
             // Scroll to top
             window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Wizard functionality
+        function showWizard(type) {
+            const wizardDiv = document.getElementById('wizardInstructions');
+            const wizardTitle = document.getElementById('wizardTitle');
+            const wizardSteps = document.getElementById('wizardSteps');
+            
+            wizardDiv.style.display = 'block';
+            
+            const wizards = {
+                frozen: {
+                    title: '❄️ Programming FROZEN FOOD Setting',
+                    steps: [
+                        'Make sure oven is OFF or cooling',
+                        'Hold TOP-LEFT soft key for 5 seconds',
+                        'Press soft key under "Edit Menu" → Turn ON',
+                        'Press BACK to exit menu',
+                        'Hold UP ARROW for 1 second',
+                        'Press UP until you see "500°F" → Press ENTER',
+                        'Press soft key under "1ST GROUP"',
+                        'Press soft key under empty slot',
+                        'Type name: Press 3x3=F, 7x3=R, 6x3=O, 9x4=Z, 2x2=E, 6x2=N',
+                        'Press RIGHT ARROW → Set time with UP/DOWN',
+                        'Press RIGHT → Set Rack to ON',
+                        'Set Event 1: 100% time, 100% air',
+                        'Press ENTER to save'
+                    ]
+                },
+                fresh: {
+                    title: '🍖 Programming FRESH FOOD Setting',
+                    steps: [
+                        'Make sure oven is OFF or cooling',
+                        'Hold TOP-LEFT soft key for 5 seconds',
+                        'Press soft key under "Edit Menu" → Turn ON',
+                        'Press BACK to exit menu',
+                        'Hold UP ARROW for 1 second',
+                        'Press UP until you see "475°F" → Press ENTER',
+                        'Press soft key under "1ST GROUP"',
+                        'Press soft key under empty slot',
+                        'Type name: Press 3x3=F, 7x3=R, 2x2=E, 7x4=S, 4x2=H',
+                        'Press RIGHT ARROW → Set time with UP/DOWN',
+                        'Press RIGHT → Set Rack to ON',
+                        'Set Event 1: 100% time, 80% air',
+                        'Press ENTER to save'
+                    ]
+                },
+                reheat: {
+                    title: '♻️ Programming REHEAT Setting',
+                    steps: [
+                        'Make sure oven is OFF or cooling',
+                        'Hold TOP-LEFT soft key for 5 seconds',
+                        'Press soft key under "Edit Menu" → Turn ON',
+                        'Press BACK to exit menu',
+                        'Hold UP ARROW for 1 second',
+                        'Press UP until you see "425°F" → Press ENTER',
+                        'Press soft key under "1ST GROUP"',
+                        'Press soft key under empty slot',
+                        'Type name: Press 7x3=R, 2x2=E, 4x2=H, 2x2=E, 2x1=A, 8x1=T',
+                        'Press RIGHT ARROW',
+                        'Press UP 24 times for 2:00 (120 seconds)',
+                        'Press RIGHT → Set Rack to ON',
+                        'Set Event 1: 100% time, 60% air',
+                        'Press ENTER to save'
+                    ]
+                }
+            };
+            
+            const wizard = wizards[type];
+            wizardTitle.textContent = wizard.title;
+            wizardSteps.innerHTML = wizard.steps.map(step => `<li>${step}</li>`).join('');
+            
+            // Scroll to wizard
+            wizardDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
         }
 
         // Initialize
