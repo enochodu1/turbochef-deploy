@@ -1,0 +1,847 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TurboChef Recipe Programmer</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        header h1 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .panel {
+            background: var(--white);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .panel h2 {
+            color: var(--dark);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light);
+        }
+
+        .recipe-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            color: var(--dark);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid var(--light);
+            border-radius: 5px;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .stage-container {
+            background: var(--light);
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .stage-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .stage-number {
+            background: var(--primary);
+            color: var(--white);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .stage-controls {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: var(--secondary);
+            color: var(--white);
+        }
+
+        .btn-secondary:hover {
+            background: #059669;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: var(--white);
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        .btn-warning {
+            background: var(--warning);
+            color: var(--white);
+        }
+
+        .btn-icon {
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 2px solid var(--light);
+        }
+
+        .code-output {
+            background: #1f2937;
+            color: #10b981;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            overflow-x: auto;
+            min-height: 200px;
+        }
+
+        .quick-templates {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .template-btn {
+            padding: 15px 10px;
+            background: linear-gradient(135deg, var(--primary), #6366f1);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .template-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px -5px rgba(37, 99, 235, 0.3);
+        }
+
+        .power-level {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 5px;
+        }
+
+        .power-btn {
+            padding: 10px;
+            background: var(--light);
+            border: 2px solid transparent;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .power-btn:hover {
+            border-color: var(--primary);
+        }
+
+        .power-btn.active {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .preview-section {
+            background: var(--light);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        .preview-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .preview-label {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .preview-value {
+            color: #6b7280;
+        }
+
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .recipe-info {
+                grid-template-columns: 1fr;
+            }
+
+            .stage-controls {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-templates {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: var(--dark);
+            color: var(--white);
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -100px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 12px;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .copy-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--secondary);
+            color: var(--white);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .copy-btn:hover {
+            background: #059669;
+        }
+
+        #savedRecipes {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .saved-recipe-item {
+            background: var(--light);
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .saved-recipe-item:hover {
+            background: #e5e7eb;
+            transform: translateX(5px);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🍳 TurboChef Recipe Programmer</h1>
+            <p>Create and customize cooking programs for your TurboChef High H Batch 2 oven</p>
+        </header>
+
+        <div class="main-grid">
+            <!-- Left Panel - Recipe Builder -->
+            <div class="panel">
+                <h2>Recipe Builder</h2>
+
+                <!-- Quick Templates -->
+                <div class="quick-templates">
+                    <button class="template-btn" onclick="loadTemplate('pizza')">🍕 Pizza</button>
+                    <button class="template-btn" onclick="loadTemplate('chicken')">🍗 Chicken</button>
+                    <button class="template-btn" onclick="loadTemplate('burger')">🍔 Burger</button>
+                    <button class="template-btn" onclick="loadTemplate('fish')">🐟 Fish</button>
+                    <button class="template-btn" onclick="loadTemplate('vegetable')">🥦 Vegetables</button>
+                    <button class="template-btn" onclick="loadTemplate('dessert')">🍰 Dessert</button>
+                    <button class="template-btn" onclick="loadTemplate('bread')">🍞 Bread</button>
+                    <button class="template-btn" onclick="loadTemplate('pasta')">🍝 Pasta</button>
+                </div>
+
+                <!-- Recipe Information -->
+                <div class="recipe-info">
+                    <div class="form-group">
+                        <label>Recipe Name</label>
+                        <input type="text" id="recipeName" placeholder="Enter recipe name">
+                    </div>
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select id="category">
+                            <option value="">Select Category</option>
+                            <option value="appetizer">Appetizer</option>
+                            <option value="entree">Entrée</option>
+                            <option value="side">Side Dish</option>
+                            <option value="dessert">Dessert</option>
+                            <option value="breakfast">Breakfast</option>
+                            <option value="snack">Snack</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Cooking Stages -->
+                <div id="cookingStages">
+                    <div class="stage-container" data-stage="1">
+                        <div class="stage-header">
+                            <span class="stage-number">Stage 1</span>
+                            <button class="btn btn-danger btn-icon" onclick="removeStage(1)" style="display:none;">✕</button>
+                        </div>
+                        <div class="stage-controls">
+                            <div class="form-group">
+                                <label>Temperature (°F)</label>
+                                <input type="number" id="temp1" min="100" max="500" value="350">
+                            </div>
+                            <div class="form-group">
+                                <label>Time (seconds)</label>
+                                <input type="number" id="time1" min="1" max="600" value="60">
+                            </div>
+                            <div class="form-group">
+                                <label>Fan Speed (%)</label>
+                                <input type="number" id="fan1" min="0" max="100" value="80">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Microwave Power</label>
+                            <div class="power-level">
+                                <button class="power-btn" onclick="setPower(1, 0)">Off</button>
+                                <button class="power-btn" onclick="setPower(1, 25)">25%</button>
+                                <button class="power-btn active" onclick="setPower(1, 50)">50%</button>
+                                <button class="power-btn" onclick="setPower(1, 75)">75%</button>
+                                <button class="power-btn" onclick="setPower(1, 100)">100%</button>
+                            </div>
+                            <input type="hidden" id="power1" value="50">
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="addStage()">+ Add Stage</button>
+
+                <!-- Action Buttons -->
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" onclick="generateCode()">Generate Code</button>
+                    <button class="btn btn-primary" onclick="saveRecipe()">Save Recipe</button>
+                    <button class="btn btn-warning" onclick="resetForm()">Reset</button>
+                </div>
+            </div>
+
+            <!-- Right Panel - Output & Preview -->
+            <div class="panel">
+                <h2>Program Output</h2>
+
+                <!-- Code Output -->
+                <div style="position: relative;">
+                    <button class="copy-btn" onclick="copyCode()">Copy Code</button>
+                    <div class="code-output" id="codeOutput">
+// Recipe code will appear here
+// Click "Generate Code" to create your program
+                    </div>
+                </div>
+
+                <!-- Preview Section -->
+                <div class="preview-section">
+                    <h3 style="margin-bottom: 15px;">Recipe Preview</h3>
+                    <div id="recipePreview">
+                        <div class="preview-item">
+                            <span class="preview-label">Total Cook Time:</span>
+                            <span class="preview-value" id="totalTime">0 seconds</span>
+                        </div>
+                        <div class="preview-item">
+                            <span class="preview-label">Max Temperature:</span>
+                            <span class="preview-value" id="maxTemp">0°F</span>
+                        </div>
+                        <div class="preview-item">
+                            <span class="preview-label">Number of Stages:</span>
+                            <span class="preview-value" id="stageCount">1</span>
+                        </div>
+                        <div class="preview-item">
+                            <span class="preview-label">Energy Efficiency:</span>
+                            <span class="preview-value" id="efficiency">Standard</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Saved Recipes -->
+                <div class="panel" style="margin-top: 20px;">
+                    <h3>Saved Recipes</h3>
+                    <div id="savedRecipes">
+                        <!-- Saved recipes will appear here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let stageCount = 1;
+        let savedRecipes = JSON.parse(localStorage.getItem('turboChefRecipes') || '[]');
+
+        // Template recipes
+        const templates = {
+            pizza: {
+                name: 'Classic Pizza',
+                stages: [
+                    { temp: 450, time: 180, fan: 100, power: 75 }
+                ]
+            },
+            chicken: {
+                name: 'Crispy Chicken',
+                stages: [
+                    { temp: 375, time: 120, fan: 80, power: 50 },
+                    { temp: 400, time: 60, fan: 100, power: 25 }
+                ]
+            },
+            burger: {
+                name: 'Perfect Burger',
+                stages: [
+                    { temp: 425, time: 90, fan: 90, power: 60 }
+                ]
+            },
+            fish: {
+                name: 'Grilled Fish',
+                stages: [
+                    { temp: 350, time: 120, fan: 70, power: 40 }
+                ]
+            },
+            vegetable: {
+                name: 'Roasted Vegetables',
+                stages: [
+                    { temp: 375, time: 90, fan: 85, power: 30 }
+                ]
+            },
+            dessert: {
+                name: 'Chocolate Cake',
+                stages: [
+                    { temp: 325, time: 180, fan: 60, power: 20 },
+                    { temp: 350, time: 60, fan: 70, power: 0 }
+                ]
+            },
+            bread: {
+                name: 'Artisan Bread',
+                stages: [
+                    { temp: 400, time: 240, fan: 50, power: 25 },
+                    { temp: 425, time: 120, fan: 70, power: 0 }
+                ]
+            },
+            pasta: {
+                name: 'Baked Pasta',
+                stages: [
+                    { temp: 350, time: 150, fan: 75, power: 45 },
+                    { temp: 400, time: 60, fan: 90, power: 0 }
+                ]
+            }
+        };
+
+        function loadTemplate(type) {
+            const template = templates[type];
+            if (!template) return;
+
+            document.getElementById('recipeName').value = template.name;
+            
+            // Clear existing stages
+            document.getElementById('cookingStages').innerHTML = '';
+            stageCount = 0;
+
+            // Add template stages
+            template.stages.forEach((stage, index) => {
+                addStage();
+                document.getElementById(`temp${index + 1}`).value = stage.temp;
+                document.getElementById(`time${index + 1}`).value = stage.time;
+                document.getElementById(`fan${index + 1}`).value = stage.fan;
+                document.getElementById(`power${index + 1}`).value = stage.power;
+                setPower(index + 1, stage.power);
+            });
+
+            updatePreview();
+            generateCode();
+        }
+
+        function addStage() {
+            stageCount++;
+            const stagesDiv = document.getElementById('cookingStages');
+            
+            const stageHTML = `
+                <div class="stage-container" data-stage="${stageCount}">
+                    <div class="stage-header">
+                        <span class="stage-number">Stage ${stageCount}</span>
+                        <button class="btn btn-danger btn-icon" onclick="removeStage(${stageCount})">✕</button>
+                    </div>
+                    <div class="stage-controls">
+                        <div class="form-group">
+                            <label>Temperature (°F)</label>
+                            <input type="number" id="temp${stageCount}" min="100" max="500" value="350" onchange="updatePreview()">
+                        </div>
+                        <div class="form-group">
+                            <label>Time (seconds)</label>
+                            <input type="number" id="time${stageCount}" min="1" max="600" value="60" onchange="updatePreview()">
+                        </div>
+                        <div class="form-group">
+                            <label>Fan Speed (%)</label>
+                            <input type="number" id="fan${stageCount}" min="0" max="100" value="80" onchange="updatePreview()">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Microwave Power</label>
+                        <div class="power-level">
+                            <button class="power-btn" onclick="setPower(${stageCount}, 0)">Off</button>
+                            <button class="power-btn" onclick="setPower(${stageCount}, 25)">25%</button>
+                            <button class="power-btn active" onclick="setPower(${stageCount}, 50)">50%</button>
+                            <button class="power-btn" onclick="setPower(${stageCount}, 75)">75%</button>
+                            <button class="power-btn" onclick="setPower(${stageCount}, 100)">100%</button>
+                        </div>
+                        <input type="hidden" id="power${stageCount}" value="50">
+                    </div>
+                </div>
+            `;
+            
+            stagesDiv.insertAdjacentHTML('beforeend', stageHTML);
+            
+            // Show remove button on first stage if there are multiple stages
+            if (stageCount > 1) {
+                document.querySelector('.stage-container[data-stage="1"] .btn-danger').style.display = 'block';
+            }
+            
+            updatePreview();
+        }
+
+        function removeStage(stageNum) {
+            const stage = document.querySelector(`.stage-container[data-stage="${stageNum}"]`);
+            if (stage && stageCount > 1) {
+                stage.remove();
+                stageCount--;
+                renumberStages();
+                updatePreview();
+            }
+        }
+
+        function renumberStages() {
+            const stages = document.querySelectorAll('.stage-container');
+            stages.forEach((stage, index) => {
+                const newNum = index + 1;
+                stage.dataset.stage = newNum;
+                stage.querySelector('.stage-number').textContent = `Stage ${newNum}`;
+                
+                // Update IDs
+                const oldNum = parseInt(stage.querySelector('[id^="temp"]').id.replace('temp', ''));
+                stage.querySelector(`#temp${oldNum}`).id = `temp${newNum}`;
+                stage.querySelector(`#time${oldNum}`).id = `time${newNum}`;
+                stage.querySelector(`#fan${oldNum}`).id = `fan${newNum}`;
+                stage.querySelector(`#power${oldNum}`).id = `power${newNum}`;
+            });
+            
+            // Hide remove button if only one stage
+            if (stages.length === 1) {
+                stages[0].querySelector('.btn-danger').style.display = 'none';
+            }
+        }
+
+        function setPower(stage, value) {
+            document.getElementById(`power${stage}`).value = value;
+            
+            // Update button states
+            const buttons = document.querySelectorAll(`.stage-container[data-stage="${stage}"] .power-btn`);
+            buttons.forEach(btn => btn.classList.remove('active'));
+            
+            const powerMap = { 0: 0, 25: 1, 50: 2, 75: 3, 100: 4 };
+            if (buttons[powerMap[value]]) {
+                buttons[powerMap[value]].classList.add('active');
+            }
+            
+            updatePreview();
+        }
+
+        function generateCode() {
+            const recipeName = document.getElementById('recipeName').value || 'Custom Recipe';
+            const category = document.getElementById('category').value || 'general';
+            
+            let code = `// TurboChef High H Batch 2 Recipe Program\n`;
+            code += `// Recipe: ${recipeName}\n`;
+            code += `// Category: ${category}\n`;
+            code += `// Generated: ${new Date().toLocaleString()}\n\n`;
+            
+            code += `RECIPE_START "${recipeName}"\n`;
+            code += `CATEGORY "${category}"\n\n`;
+            
+            for (let i = 1; i <= stageCount; i++) {
+                const temp = document.getElementById(`temp${i}`)?.value || 350;
+                const time = document.getElementById(`time${i}`)?.value || 60;
+                const fan = document.getElementById(`fan${i}`)?.value || 80;
+                const power = document.getElementById(`power${i}`)?.value || 50;
+                
+                code += `// Stage ${i}\n`;
+                code += `STAGE ${i} {\n`;
+                code += `  TEMP: ${temp}°F\n`;
+                code += `  TIME: ${time} seconds\n`;
+                code += `  FAN_SPEED: ${fan}%\n`;
+                code += `  MICROWAVE: ${power}%\n`;
+                code += `}\n\n`;
+            }
+            
+            code += `RECIPE_END\n\n`;
+            code += `// Instructions:\n`;
+            code += `// 1. Enter this program into your TurboChef oven\n`;
+            code += `// 2. Save with recipe number\n`;
+            code += `// 3. Test with sample product\n`;
+            code += `// 4. Adjust parameters as needed`;
+            
+            document.getElementById('codeOutput').textContent = code;
+            updatePreview();
+        }
+
+        function updatePreview() {
+            let totalTime = 0;
+            let maxTemp = 0;
+            let totalPower = 0;
+            
+            for (let i = 1; i <= stageCount; i++) {
+                const time = parseInt(document.getElementById(`time${i}`)?.value || 0);
+                const temp = parseInt(document.getElementById(`temp${i}`)?.value || 0);
+                const power = parseInt(document.getElementById(`power${i}`)?.value || 0);
+                
+                totalTime += time;
+                maxTemp = Math.max(maxTemp, temp);
+                totalPower += power;
+            }
+            
+            document.getElementById('totalTime').textContent = `${totalTime} seconds (${Math.floor(totalTime/60)}:${(totalTime%60).toString().padStart(2,'0')})`;
+            document.getElementById('maxTemp').textContent = `${maxTemp}°F`;
+            document.getElementById('stageCount').textContent = stageCount;
+            
+            // Calculate efficiency
+            const avgPower = totalPower / stageCount;
+            let efficiency = 'Standard';
+            if (avgPower < 30) efficiency = 'High Efficiency';
+            else if (avgPower > 70) efficiency = 'High Power';
+            
+            document.getElementById('efficiency').textContent = efficiency;
+        }
+
+        function saveRecipe() {
+            const recipeName = document.getElementById('recipeName').value || 'Unnamed Recipe';
+            
+            const recipe = {
+                name: recipeName,
+                category: document.getElementById('category').value,
+                stages: [],
+                timestamp: new Date().toISOString()
+            };
+            
+            for (let i = 1; i <= stageCount; i++) {
+                recipe.stages.push({
+                    temp: document.getElementById(`temp${i}`).value,
+                    time: document.getElementById(`time${i}`).value,
+                    fan: document.getElementById(`fan${i}`).value,
+                    power: document.getElementById(`power${i}`).value
+                });
+            }
+            
+            savedRecipes.unshift(recipe);
+            if (savedRecipes.length > 10) savedRecipes = savedRecipes.slice(0, 10);
+            
+            localStorage.setItem('turboChefRecipes', JSON.stringify(savedRecipes));
+            displaySavedRecipes();
+            
+            alert(`Recipe "${recipeName}" saved successfully!`);
+        }
+
+        function displaySavedRecipes() {
+            const container = document.getElementById('savedRecipes');
+            
+            if (savedRecipes.length === 0) {
+                container.innerHTML = '<p style="color: #999;">No saved recipes yet</p>';
+                return;
+            }
+            
+            container.innerHTML = savedRecipes.map(recipe => `
+                <div class="saved-recipe-item" onclick='loadSavedRecipe(${JSON.stringify(recipe)})'>
+                    <strong>${recipe.name}</strong><br>
+                    <small>${recipe.stages.length} stages | ${new Date(recipe.timestamp).toLocaleDateString()}</small>
+                </div>
+            `).join('');
+        }
+
+        function loadSavedRecipe(recipe) {
+            document.getElementById('recipeName').value = recipe.name;
+            document.getElementById('category').value = recipe.category || '';
+            
+            // Clear and rebuild stages
+            document.getElementById('cookingStages').innerHTML = '';
+            stageCount = 0;
+            
+            recipe.stages.forEach((stage, index) => {
+                addStage();
+                document.getElementById(`temp${index + 1}`).value = stage.temp;
+                document.getElementById(`time${index + 1}`).value = stage.time;
+                document.getElementById(`fan${index + 1}`).value = stage.fan;
+                document.getElementById(`power${index + 1}`).value = stage.power;
+                setPower(index + 1, stage.power);
+            });
+            
+            generateCode();
+        }
+
+        function copyCode() {
+            const code = document.getElementById('codeOutput').textContent;
+            navigator.clipboard.writeText(code).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                const originalText = btn.textContent;
+                btn.textContent = 'Copied!';
+                btn.style.background = '#10b981';
+                
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '';
+                }, 2000);
+            });
+        }
+
+        function resetForm() {
+            if (confirm('Are you sure you want to reset the form?')) {
+                document.getElementById('recipeName').value = '';
+                document.getElementById('category').value = '';
+                document.getElementById('cookingStages').innerHTML = '';
+                stageCount = 0;
+                addStage();
+                document.getElementById('codeOutput').textContent = '// Recipe code will appear here\n// Click "Generate Code" to create your program';
+                updatePreview();
+            }
+        }
+
+        // Initialize
+        displaySavedRecipes();
+        updatePreview();
+
+        // Add event listeners for real-time preview updates
+        document.addEventListener('input', function(e) {
+            if (e.target.type === 'number' || e.target.type === 'text') {
+                updatePreview();
+            }
+        });
+    </script>
+</body>
+</html>
