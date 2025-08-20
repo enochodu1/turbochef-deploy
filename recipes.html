@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Programming - TurboChef High H Batch 2</title>
+    <style>
+        :root {
+            --black: #000000;
+            --dark-gray: #1c1c1e;
+            --medium-gray: #2c2c2e;
+            --light-gray: #48484a;
+            --white: #ffffff;
+            --accent: #007AFF;
+            --success: #30d158;
+            --warning: #ffd60a;
+            --danger: #ff453a;
+            --glass: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #000000 0%, #1c1c1e 100%);
+            color: var(--white);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Glass Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            z-index: 1000;
+            padding: 1rem 2rem;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--white) 0%, var(--light-gray) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 10px;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            background: var(--glass);
+        }
+
+        .btn-home {
+            background: var(--accent);
+            color: var(--white);
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 100px 20px 20px;
+        }
+
+        /* Category Grid */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .category-btn {
+            padding: 1rem;
+            background: var(--medium-gray);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            color: var(--white);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .category-btn:hover, .category-btn.active {
+            background: var(--accent);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 122, 255, 0.3);
+        }
+
+        /* Recipe Grid */
+        .recipe-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        /* Recipe Card */
+        .recipe-card {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .recipe-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--success) 100%);
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: var(--accent);
+        }
+
+        .recipe-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .recipe-specs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .spec {
+            background: var(--medium-gray);
+            padding: 0.5rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+        }
+
+        .spec strong {
+            color: var(--accent);
+        }
+
+        .quick-view {
+            background: var(--accent);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .quick-view:hover {
+            background: #0051D5;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--dark-gray);
+            border-radius: 25px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            position: relative;
+            border: 1px solid var(--glass-border);
+        }
+
+        .modal-header {
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--glass-border);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-radius: 25px 25px 0 0;
+        }
+
+        .modal-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: var(--medium-gray);
+            border: none;
+            color: var(--white);
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .close-modal:hover {
+            background: var(--danger);
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        /* Programming Steps */
+        .step {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            position: relative;
+            padding-left: 3rem;
+        }
+
+        .step-number {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: var(--accent);
+            color: var(--white);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+
+        .step-action {
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 0.25rem;
+        }
+
+        .step-detail {
+            color: var(--light-gray);
+            font-size: 0.9rem;
+        }
+
+        .button-press {
+            display: inline-block;
+            background: var(--medium-gray);
+            color: var(--accent);
+            padding: 0.25rem 0.5rem;
+            border-radius: 5px;
+            font-family: monospace;
+            margin: 0 0.25rem;
+        }
+
+        /* Quick Actions */
+        .quick-actions {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .fab {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--accent);
+            color: var(--white);
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s;
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+        }
+
+        /* Search */
+        .search-box {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 1rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--white);
+            font-size: 1.1rem;
+            outline: none;
+        }
+
+        .search-input::placeholder {
+            color: var(--light-gray);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .recipe-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            nav {
+                display: none;
+            }
+            
+            .modal-content {
+                margin: 20px;
+            }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--dark-gray);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--light-gray);
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
+        }
+
+        /* Print button */
+        .print-btn {
+            background: var(--success);
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 15px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .print-btn:hover {
+            background: #28a745;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">🔥 TurboChef Recipe Programming</div>
+            <nav>
+                <a href="index.html" class="btn-home">← Back to Guide</a>
+            </nav>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="search-box">
+            <span>🔍</span>
+            <input type="text" class="search-input" placeholder="Search recipes..." id="searchInput">
+        </div>
+
+        <div class="category-grid">
+            <button class="category-btn active" onclick="filterCategory('all')">All Recipes</button>
+            <button class="category-btn" onclick="filterCategory('proteins')">🍗 Proteins</button>
+            <button class="category-btn" onclick="filterCategory('vegetables')">🥔 Vegetables</button>
+            <button class="category-btn" onclick="filterCategory('frozen')">🧊 Frozen</button>
+            <button class="category-btn" onclick="filterCategory('appetizers')">🥟 Appetizers</button>
+            <button class="category-btn" onclick="filterCategory('utility')">🔄 Utility</button>
+        </div>
+
+        <div class="recipe-grid" id="recipeGrid">
+            <!-- Recipes will be inserted here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal" id="recipeModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Recipe Title</h2>
+                <button class="close-modal" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Steps will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <div class="quick-actions">
+        <button class="fab" onclick="window.scrollTo(0,0)" title="Back to Top">↑</button>
+    </div>
+
+    <script>
+        // Recipe Database
+        const recipes = {
+            'turkey-leg-frozen-small': {
+                title: '🍗 Frozen Turkey Leg (Small 8-10oz)',
+                category: 'proteins',
+                temp: '475°F',
+                time: '18:00',
+                rack: 'ON',
+                air: '70%→90% / 30%→100%',
+                placement: 'DIRECTLY ON RACK',
+                oiling: 'Brush with oil/butter BEFORE cooking for golden skin',
+                seasoning: 'Season BEFORE cooking - dry rub 30 min ahead for best flavor',
+                tips: 'Internal temp must reach 165°F. May smoke from fat - this is normal. Rest 2-3 min before serving.',
+                steps: [
+                    { action: 'Enter Programming Mode', detail: 'Hold UP arrow for 1 second' },
+                    { action: 'Set Temperature', detail: 'Press UP until display shows "475", then press ENTER' },
+                    { action: 'Select Food Group', detail: 'Press soft key under "1ST GROUP"' },
+                    { action: 'Select Item Slot', detail: 'Press soft key under "1ST ITEM"' },
+                    { action: 'Enter Name: TURK LEG S', detail: 'Press: 8(T) 8-8(U) 7-7(R) 5-5(K) 1(space) 5-5-5(L) 3-3(E) 4(G) 1(space) 7-7-7-7(S)' },
+                    { action: 'Move to Time Field', detail: 'Press RIGHT arrow' },
+                    { action: 'Set Time to 18:00', detail: 'Press UP arrow 216 times (or hold for faster scrolling)' },
+                    { action: 'Move to Rack Setting', detail: 'Press RIGHT arrow' },
+                    { action: 'Turn Rack ON', detail: 'Press UP arrow once' },
+                    { action: 'Set Event 1 Time', detail: 'Press RIGHT arrow, then press 7, then 0 for 70%' },
+                    { action: 'Set Event 2 Time', detail: 'Press RIGHT arrow, then press 3, then 0 for 30%' },
+                    { action: 'Set Event 1 Air', detail: 'Press RIGHT arrow, then press 9, then 0 for 90%' },
+                    { action: 'Set Event 2 Air', detail: 'Press RIGHT arrow, then press 1, 0, 0 for 100%' },
+                    { action: 'Test Settings', detail: 'Press bottom-left soft key to test' },
+                    { action: 'Save Recipe', detail: 'Press ENTER to save. Screen shows "Settings Saved"' }
+                ]
+            },
+            'turkey-leg-frozen-medium': {
+                title: '🍗 Frozen Turkey Leg (Medium 12-14oz)',
+                category: 'proteins',
+                temp: '475°F',
+                time: '20:00',
+                rack: 'ON',
+                air: '70%→90% / 30%→100%',
+                placement: 'DIRECTLY ON RACK',
+                oiling: 'Brush with oil/butter BEFORE cooking',
+                seasoning: 'Season BEFORE cooking',
+                tips: 'Same as small but longer time. Space 1-2" apart for multiple.',
+                steps: [
+                    { action: 'Enter Programming Mode', detail: 'Hold UP arrow for 1 second' },
+                    { action: 'Set Temperature', detail: 'Press UP until "475", press ENTER' },
+                    { action: 'Select Group & Slot', detail: 'Press "1ST GROUP" then "2ND ITEM"' },
+                    { action: 'Enter Name: TURK LEG M', detail: 'Use number keys - ends with 6(M)' },
+                    { action: 'Set Time to 20:00', detail: 'Press RIGHT, then UP 240 times' },
+                    { action: 'Configure Events', detail: 'Same as small: 70/30 time, 90/100 air' },
+                    { action: 'Save', detail: 'Press ENTER' }
+                ]
+            },
+            'turkey-leg-frozen-large': {
+                title: '🍗 Frozen Turkey Leg (Large 16oz+)',
+                category: 'proteins',
+                temp: '475°F',
+                time: '22:00',
+                rack: 'ON',
+                air: '70%→90% / 30%→100%',
+                steps: [
+                    { action: 'Enter Programming Mode', detail: 'Hold UP arrow for 1 second' },
+                    { action: 'Set Temperature', detail: 'Press UP until "475", press ENTER' },
+                    { action: 'Select Group & Slot', detail: 'Press "1ST GROUP" then "3RD ITEM"' },
+                    { action: 'Enter Name: TURK LEG L', detail: 'Use number keys - ends with 5-5-5(L)' },
+                    { action: 'Set Time to 22:00', detail: 'Press RIGHT, then UP 264 times' },
+                    { action: 'Configure Events', detail: 'Same as small: 70/30 time, 90/100 air' },
+                    { action: 'Save', detail: 'Press ENTER' }
+                ]
+            },
+            'turkey-leg-thawed': {
+                title: '🍗 Thawed Turkey Leg (All Sizes)',
+                category: 'proteins',
+                temp: '475°F',
+                time: '12:00-15:00',
+                rack: 'ON',
+                air: '100%→85%',
+                steps: [
+                    { action: 'Enter Programming Mode', detail: 'Hold UP arrow for 1 second' },
+                    { action: 'Set Temperature', detail: '475°F - press ENTER' },
+                    { action: 'Select Location', detail: 'Choose group and slot' },
+                    { action: 'Enter Name: TURK LEG TH', detail: 'Add TH for thawed' },
+                    { action: 'Set Time by Size', detail: 'Small: 12:00 (144 UP), Medium: 13:30 (162 UP), Large: 15:00 (180 UP)' },
+                    { action: 'Single Stage Setup', detail: 'Event 1: 100% time @ 85% air' },
+                    { action: 'Save', detail: 'Press ENTER' }
+                ]
+            },
+            'chicken-wings-frozen': {
+                title: '🍗 Frozen Chicken Wings',
+                category: 'proteins',
+                temp: '475°F',
+                time: '14:00',
+                rack: 'ON',
+                air: '70%→90% / 30%→100%',
+                placement: 'DIRECTLY ON RACK',
+                oiling: 'Optional - light spray for extra crispy',
+                seasoning: 'Season AFTER cooking - toss in sauce/dry rub while hot',
+                tips: 'Internal temp 165°F. Don\'t overcrowd. Pat dry if thawed for crispier skin.'
+                steps: [
+                    { action: 'Enter Programming Mode', detail: 'Hold UP arrow for 1 second' },
+                    { action: 'Set Temperature', detail: '475°F - press ENTER' },
+                    { action: 'Select Location', detail: 'Choose "2ND GROUP" then "1ST ITEM"' },
+                    { action: 'Enter Name: WINGS FZ', detail: 'Press: 9(W) 4-4-4(I) 6-6(N) 4(G) 7-7-7-7(S) 1(space) 3-3-3(F) 9-9-9-9(Z)' },
+                    { action: 'Set Time to 14:00', detail: 'Press RIGHT, then UP 168 times' },
+                    { action: 'Two-Stage Events', detail: 'Event 1: 70% @ 90%, Event 2: 30% @ 100%' },
+                    { action: 'Save', detail: 'Press ENTER' }
+                ]
+            },
+            'chicken-wings-thawed': {
+                title: '🍗 Thawed Chicken Wings',
+                category: 'proteins',
+                temp: '475°F',
+                time: '10:00',
+                rack: 'ON',
+                air: '100%→85%',
+                steps: [
+                    { action: 'Enter Programming Mode', detail: 'Hold UP arrow for 1 second' },
+                    { action: 'Set Temperature', detail: '475°F - press ENTER' },
+                    { action: 'Select Location', detail: 'Choose group and slot' },
+                    { action: 'Enter Name: WINGS TH', detail: 'Add TH for thawed' },
+                    { action: 'Set Time to 10:00', detail: 'Press RIGHT, then UP 120 times' },
+                    { action: 'Single Stage', detail: 'Event 1: 100% @ 85% air' },
+                    { action: 'Save', detail: 'Press ENTER' }
+                ]
+            },
+            'salmon-fillet': {
+                title: '🐟 Salmon Fillet (Thawed)',
+                category: 'proteins',
+                temp: '450°F',
+                time: '4:00-5:00',
+                rack: 'ON',
+                air: '70%→80% / 30%→60%',
+                placement: 'RACK or PARCHMENT on pan (easier removal)',
+                oiling: 'Brush with oil/butter to prevent sticking',
+                seasoning: 'Season BEFORE - salt, pepper, lemon, herbs',
+                tips: 'Internal temp 145°F. Thicker portions (1.5") need 5:00. Don\'t overcook!',
+                steps: [
+                    { action: 'Enter Programming Mode', detail: 'Hold UP arrow for 1 second' },
+                    { action: 'Set Temperature', detail: 'Press UP until "450", press ENTER' },
+                    { action: 'Select Location', detail: 'Choose "2ND GROUP" for seafood' },
+                    { action: 'Enter Name: SALMON', detail: 'Press: 7-7-7-7(S) 2(A) 5-5-5(L) 6(M) 6-6-6(O) 6-6(N)' },
+                    { action: 'Set Time', detail: '4:00 for thin, 5:00 for thick (48-60 UP presses)' },
+                    { action: 'Two-Stage for Gentle Cook', detail: 'Event 1: 70% @ 80%, Event 2: 30% @ 60%' },
+                    { action: 'Save', detail: 'Press ENTER' }
+                ]
+            },
+            'potato-8oz': {
+                title: '🥔 Baked Potato (8 oz)',
+                category: 'vegetables',
+                temp: '500°F',
+                time: '15:00',
+                rack: 'ON',
+                air: '100%→90%',
+                placement: 'DIRECTLY ON RACK - best heat circulation',
+                oiling: 'Rub with oil and coarse salt BEFORE for crispy skin',
+                seasoning: 'Pierce 3-4 times with fork. Salt exterior before cooking.',
+                tips: 'Test doneness by squeezing (use towel). Should give slightly. Add toppings AFTER.',
+                steps: [
+                    { action: 'Enter Programming Mode', detail: 'Hold UP arrow for 1 second' },
+                    { action: 'Set Temperature', detail: 'Press UP until "500" (maximum), press ENTER' },
+                    { action: 'Select Location', detail: 'Choose "3RD GROUP" for vegetables' },
+                    { action: 'Enter Name: POTATO 8', detail: 'Include size in name' },
+                    { action: 'Set Time to 15:00', detail: 'Press RIGHT, then UP 180 times' },
+                    { action: 'Single Stage', detail: 'Event 1: 100% @ 90% air' },
+                    { action: 'Save', detail: 'Press ENTER' }
+                ]
+            },
+            'potato-10oz': {
+                title: '🥔 Baked Potato (10 oz)',
+                category: 'vegetables',
+                temp: '500°F',
+                time: '18:00',
+                rack: 'ON',
+                air: '100%→90%',
+                steps: [
+                    { action: 'Enter Programming Mode', detail: 'Hold UP arrow for 1 second' },
+                    { action: 'Set Temperature', detail: '500°F (maximum), press ENTER' },
+                    { action: 'Select Location', detail: 'Choose vegetable group' },
+                    { action: 'Enter Name: POTATO 10', detail: 'Include size' },
+                    { action: 'Set Time to 18:00', detail: 'Press RIGHT, then UP 216 times' },
+                    { action: 'Single Stage', detail: 'Event 1: 100% @ 90% air' },
+                    { action: 'Save', detail: 'Press ENTER' }
+                ]
+            },
+            'potato-12oz': {
+                title: '🥔 Baked Potato (12 oz)',
+                category: 'vegetables',
+                temp: '500°F',
+                time: '20:00',
+                rack: 'ON',
+                air: '100%→90%',
+                steps: [
+                    { action: 'Enter Programming Mode', detail: 'Hold UP arrow for 1 second' },
+                    { action: 'Set Temperature', detail: '500°F, press ENTER' },
+                    { action: 'Select Location', detail: 'Choose vegetable group' },
+                    { action: 'Enter Name: POTATO 12', detail: 'Include size' },
+                    { action: 'Set Time to 20:00', detail: 'Press RIGHT, then UP 240 times' },
+                    { action: 'Single Stage', detail: 'Event 1: 100% @ 90% air' },
+                    { action: 'Save', detail: 'Press ENTER' }
+                ]
+            },
+            'fries-shoestring': {
+                title: '🍟 Shoestring Fries',
+                category: 'frozen',
+                temp: '500°F',
+                time: '3:00',
+                rack: 'ON',
+                air: '100%',
+                placement: 'DIRECTLY ON RACK - never use pan!',
+                oiling: 'NO OIL NEEDED - frozen fries already have oil',
+                seasoning: 'Season AFTER cooking while hot for best adhesion',
+                tips: 'Single layer, slight overlap OK. Max 1-1.5 lbs per batch. Salt immediately after.',
+                steps: [
+                    { action: 'Enter Programming Mode', detail: 'Hold UP arrow for 1 second' },
+                    { action: 'Set Temperature', detail: '500°F (maximum for crispiness), press ENTER' },
+                    { action: 'Select Location', detail: 'Choose "4TH GROUP" for frozen items' },
+                    { action: 'Enter Name: FRIES SH', detail: 'SH for shoestring' },
+                    { action: 'Set Time to 3:00', detail: 'Press RIGHT, then UP 36 times' },
+                    { action: 'Maximum Settings', detail: 'Event 1: 100% @ 100% air' },
+                    { action: 'Save', detail: 'Press ENTER' }
+                ]
+            },
+            'fries-regular': {
+                title: '🍟 Regular Fries',
+                category: 'frozen',
+                temp: '500°F',
+                time: '3:30-4:00',
+                rack: 'ON',
+                air: '100%',
+                steps: [
+                    { action: 'Enter Programming Mode', detail: 'Hold UP arrow for 1 second' },
+                    { action: 'Set Temperature', detail: '500°F, press ENTER' },
+                    { action: 'Select Location', detail: 'Frozen items group' },
+                    { action: 'Enter Name: FRIES REG', detail: 'REG for regular' },
+                    { action: 'Set Time', detail: '3:30 (42 UP) to 4:00 (48 UP)' },
+                    { action: 'Maximum Crisp', detail: 'Event 1: 100% @ 100% air' },
+                    { action: 'Save', detail: 'Press ENTER' }
+                ]
+            },
+            'fries-steak': {
+                title: '🍟 Steak Cut Fries',
+                category: 'frozen',
+                temp: '500°F',
+                time: '5:00',
+                rack: 'ON',
+                air: '100%',
+                steps: [
+                    { action: 'Enter Programming Mode', detail: 'Hold UP arrow for 1 second' },
+                    { action: 'Set Temperature', detail: '500°F, press ENTER' },
+                    { action: 'Select Location', detail: 'Frozen items group' },
+                    { action: 'Enter Name: FRIES STK', detail: 'STK for steak cut' },
+                    { action: 'Set Time to 5:00', detail: 'Press RIGHT, then UP 60 times' },
+                    { action: 'Maximum Settings', detail: 'Event 1: 100% @ 100% air' },
+                    { action: 'Save', detail: 'Press ENTER' }
+                ]
+            },
+            'egg-rolls': {
+                title: '🥟 Egg Rolls (1.5 oz)',
+                category: 'appetizers',
+                temp: '500°F',
+                time: '4:00',
+                rack: 'ON',
+                air: '100%',
+                placement: 'DIRECTLY ON RACK - critical for even browning',
+                oiling: 'MUST SPRAY WITH OIL BEFORE COOKING for browning',
+                seasoning: 'Serve with sauce - no seasoning needed',
+                tips: 'Space 1" apart, max 6-8 at once. If not browning, check oil spray. Frozen cook 30 sec longer.',
+                steps: [
+                    { action: 'Enter Programming Mode', detail: 'Hold UP arrow for 1 second' },
+                    { action: 'Set Temperature', detail: '500°F for browning, press ENTER' },
+                    { action: 'Select Location', detail: 'Choose appetizer group' },
+                    { action: 'Enter Name: EGG ROLL', detail: 'Press: 3-3(E) 4(G) 4(G) 1(space) 7-7(R) 6-6-6(O) 5-5-5(L) 5-5-5(L)' },
+                    { action: 'Set Time to 4:00', detail: 'Press RIGHT, then UP 48 times' },
+                    { action: 'Maximum Browning', detail: 'Event 1: 100% @ 100% air' },
+                    { action: 'Important Note', detail: 'MUST spray with oil before cooking for browning!' },
+                    { action: 'Save', detail: 'Press ENTER' }
+                ]
+            },
+            'poppers': {
+                title: '🌶️ Bacon-Wrapped Jalapeño Poppers',
+                category: 'appetizers',
+                temp: '425°F',
+                time: '7:30',
+                rack: 'ON',
+                air: '70%→70% / 30%→90%',
+                placement: 'DIRECTLY ON RACK - let grease drip',
+                oiling: 'No oil needed - bacon provides fat',
+                seasoning: 'Season cream cheese filling BEFORE wrapping',
+                tips: 'MUST use THIN bacon! Secure with toothpicks. Will create grease - clean after. 24-30 fit in full batch.',
+                steps: [
+                    { action: 'Enter Programming Mode', detail: 'Hold UP arrow for 1 second' },
+                    { action: 'Set Temperature', detail: 'Press UP until "425" (lower for bacon), press ENTER' },
+                    { action: 'Select Location', detail: 'Choose appetizer group' },
+                    { action: 'Enter Name: POPPERS', detail: 'Simple name for quick access' },
+                    { action: 'Set Time to 7:30', detail: 'Press RIGHT, then UP 90 times' },
+                    { action: 'Two-Stage Bacon Cook', detail: 'Event 1: 70% @ 70%, Event 2: 30% @ 90%' },
+                    { action: 'Critical Note', detail: 'MUST use THIN bacon only!' },
+                    { action: 'Save', detail: 'Press ENTER' }
+                ]
+            },
+            'pizza-personal': {
+                title: '🍕 Personal Pizza (Frozen)',
+                category: 'frozen',
+                temp: '475°F',
+                time: '4:00',
+                rack: 'ON',
+                air: '100%→70%',
+                placement: 'DIRECTLY ON RACK - prevents soggy bottom',
+                oiling: 'No oil needed',
+                seasoning: 'Add red pepper/parmesan AFTER cooking',
+                tips: '70% air prevents cheese blow-off. Check at 3:00 for lighter crust preference.',
+                steps: [
+                    { action: 'Enter Programming Mode', detail: 'Hold UP arrow for 1 second' },
+                    { action: 'Set Temperature', detail: '475°F, press ENTER' },
+                    { action: 'Select Location', detail: 'Frozen items group' },
+                    { action: 'Enter Name: PIZZA PER', detail: 'PER for personal' },
+                    { action: 'Set Time to 4:00', detail: 'Press RIGHT, then UP 48 times' },
+                    { action: 'Prevent Topping Blow-off', detail: 'Event 1: 100% @ 70% air' },
+                    { action: 'Save', detail: 'Press ENTER' }
+                ]
+            },
+            'pizza-16-thawed': {
+                title: '🍕 16" Pizza (Thawed)',
+                category: 'frozen',
+                temp: '450°F',
+                time: '9:00',
+                rack: 'ON',
+                air: '70%→70% / 30%→60%',
+                steps: [
+                    { action: 'Enter Programming Mode', detail: 'Hold UP arrow for 1 second' },
+                    { action: 'Lower Temperature', detail: 'Press UP until "450" (lower for thawed), press ENTER' },
+                    { action: 'Select Location', detail: 'Choose pizza group' },
+                    { action: 'Enter Name: PIZZA 16TH', detail: 'Include size and thawed' },
+                    { action: 'Set Time to 9:00', detail: 'Press RIGHT, then UP 108 times' },
+                    { action: 'Two-Stage Gentle', detail: 'Event 1: 70% @ 70%, Event 2: 30% @ 60%' },
+                    { action: 'Warning', detail: 'Thawed pizza is tricky - frozen works better!' },
+                    { action: 'Save', detail: 'Press ENTER' }
+                ]
+            },
+            'plantains': {
+                title: '🍌 Frozen Plantains',
+                category: 'frozen',
+                temp: '475°F',
+                time: '5:00-6:00',
+                rack: 'ON',
+                air: '60%→90% / 40%→70%',
+                steps: [
+                    { action: 'Enter Programming Mode', detail: 'Hold UP arrow for 1 second' },
+                    { action: 'Set Temperature', detail: '475°F, press ENTER' },
+                    { action: 'Select Location', detail: 'Choose frozen group' },
+                    { action: 'Enter Name: PLANTAIN', detail: 'Full word for clarity' },
+                    { action: 'Set Time', detail: '5:00 for slices (60 UP), 8:00 for whole (96 UP)' },
+                    { action: 'Two-Stage Caramelize', detail: 'Event 1: 60% @ 90%, Event 2: 40% @ 70%' },
+                    { action: 'Save', detail: 'Press ENTER' }
+                ]
+            },
+            'reheat-all': {
+                title: '🔄 Universal Reheat',
+                category: 'utility',
+                temp: '425°F',
+                time: '2:00',
+                rack: 'ON',
+                air: '100%→60%',
+                placement: 'RACK for crispy items, PAN for saucy items',
+                oiling: 'No oil needed for reheating',
+                seasoning: 'Refresh seasoning AFTER if needed',
+                tips: 'Cover with parchment if concerned about drying. Add 30 sec increments if needed.'
+                steps: [
+                    { action: 'Enter Programming Mode', detail: 'Hold UP arrow for 1 second' },
+                    { action: 'Set Temperature', detail: 'Press UP until "425", press ENTER' },
+                    { action: 'Select Utility Group', detail: 'Choose last group for utilities' },
+                    { action: 'Enter Name: REHEAT', detail: 'Simple universal name' },
+                    { action: 'Set Time to 2:00', detail: 'Press RIGHT, then UP 24 times' },
+                    { action: 'Gentle Settings', detail: 'Event 1: 100% @ 60% air' },
+                    { action: 'Save', detail: 'Press ENTER - works for most leftovers!' }
+                ]
+            },
+            'crispy-refresh': {
+                title: '🔄 Crispy Refresh',
+                category: 'utility',
+                temp: '500°F',
+                time: '1:30',
+                rack: 'ON',
+                air: '100%',
+                steps: [
+                    { action: 'Enter Programming Mode', detail: 'Hold UP arrow for 1 second' },
+                    { action: 'Set Temperature', detail: '500°F (maximum), press ENTER' },
+                    { action: 'Select Utility Group', detail: 'Choose utility group' },
+                    { action: 'Enter Name: REFRESH', detail: 'For reviving soggy items' },
+                    { action: 'Set Time to 1:30', detail: 'Press RIGHT, then UP 18 times' },
+                    { action: 'Maximum Crisp', detail: 'Event 1: 100% @ 100% air' },
+                    { action: 'Save', detail: 'Press ENTER - perfect for old fries!' }
+                ]
+            },
+            'gentle-warm': {
+                title: '🔄 Gentle Warm',
+                category: 'utility',
+                temp: '350°F',
+                time: '3:00',
+                rack: 'ON',
+                air: '100%→40%',
+                steps: [
+                    { action: 'Enter Programming Mode', detail: 'Hold UP arrow for 1 second' },
+                    { action: 'Set Temperature', detail: 'Press UP until "350", press ENTER' },
+                    { action: 'Select Utility Group', detail: 'Choose utility group' },
+                    { action: 'Enter Name: WARM', detail: 'For warming without cooking' },
+                    { action: 'Set Time to 3:00', detail: 'Press RIGHT, then UP 36 times' },
+                    { action: 'Very Gentle', detail: 'Event 1: 100% @ 40% air' },
+                    { action: 'Save', detail: 'Press ENTER - holds temperature without overcooking' }
+                ]
+            }
+        };
+
+        // Render recipes
+        function renderRecipes(filter = 'all', search = '') {
+            const grid = document.getElementById('recipeGrid');
+            grid.innerHTML = '';
+            
+            Object.keys(recipes).forEach(key => {
+                const recipe = recipes[key];
+                
+                // Filter logic
+                if (filter !== 'all' && recipe.category !== filter) return;
+                if (search && !recipe.title.toLowerCase().includes(search.toLowerCase())) return;
+                
+                const card = document.createElement('div');
+                card.className = 'recipe-card';
+                card.innerHTML = `
+                    <div class="recipe-title">${recipe.title}</div>
+                    <div class="recipe-specs">
+                        <div class="spec"><strong>Temp:</strong> ${recipe.temp}</div>
+                        <div class="spec"><strong>Time:</strong> ${recipe.time}</div>
+                        <div class="spec"><strong>Rack:</strong> ${recipe.rack}</div>
+                        <div class="spec"><strong>Air:</strong> ${recipe.air}</div>
+                    </div>
+                    ${recipe.placement ? `<div class="prep-info" style="background: var(--medium-gray); padding: 0.75rem; border-radius: 10px; margin: 0.5rem 0; font-size: 0.85rem;">
+                        <div style="color: var(--success); margin-bottom: 0.25rem;">📍 <strong>Placement:</strong> ${recipe.placement}</div>
+                        <div style="color: var(--warning); margin-bottom: 0.25rem;">🧈 <strong>Oil:</strong> ${recipe.oiling}</div>
+                        <div style="color: var(--accent); margin-bottom: 0.25rem;">🧂 <strong>Season:</strong> ${recipe.seasoning}</div>
+                        <div style="color: var(--white);">💡 <strong>Tips:</strong> ${recipe.tips}</div>
+                    </div>` : ''}
+                    <button class="quick-view" onclick="showRecipe('${key}')">View Programming Steps</button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Show recipe modal
+        function showRecipe(key) {
+            const recipe = recipes[key];
+            const modal = document.getElementById('recipeModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            
+            modalTitle.textContent = recipe.title;
+            
+            let stepsHtml = '';
+            recipe.steps.forEach((step, index) => {
+                stepsHtml += `
+                    <div class="step">
+                        <div class="step-number">${index + 1}</div>
+                        <div class="step-action">${step.action}</div>
+                        <div class="step-detail">${step.detail}</div>
+                    </div>
+                `;
+            });
+            
+            stepsHtml += `
+                <button class="print-btn" onclick="printRecipe('${key}')">🖨️ Print These Instructions</button>
+            `;
+            
+            modalBody.innerHTML = stepsHtml;
+            modal.classList.add('active');
+        }
+
+        // Close modal
+        function closeModal() {
+            document.getElementById('recipeModal').classList.remove('active');
+        }
+
+        // Filter by category
+        function filterCategory(category) {
+            document.querySelectorAll('.category-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            renderRecipes(category);
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            renderRecipes('all', e.target.value);
+        });
+
+        // Print recipe
+        function printRecipe(key) {
+            const recipe = recipes[key];
+            const printWindow = window.open('', '_blank');
+            let stepsHtml = '';
+            
+            recipe.steps.forEach((step, index) => {
+                stepsHtml += `
+                    <div style="margin-bottom: 15px; padding: 10px; border: 1px solid #ccc;">
+                        <strong>Step ${index + 1}: ${step.action}</strong><br>
+                        ${step.detail}
+                    </div>
+                `;
+            });
+            
+            printWindow.document.write(`
+                <html>
+                <head>
+                    <title>${recipe.title} - Programming Instructions</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; padding: 20px; }
+                        h1 { color: #333; }
+                        .info { background: #f0f0f0; padding: 10px; margin: 10px 0; }
+                    </style>
+                </head>
+                <body>
+                    <h1>${recipe.title}</h1>
+                    <div class="info">
+                        <strong>Temperature:</strong> ${recipe.temp}<br>
+                        <strong>Time:</strong> ${recipe.time}<br>
+                        <strong>Rack:</strong> ${recipe.rack}<br>
+                        <strong>Air:</strong> ${recipe.air}
+                    </div>
+                    <h2>Programming Steps:</h2>
+                    ${stepsHtml}
+                </body>
+                </html>
+            `);
+            printWindow.document.close();
+            printWindow.print();
+        }
+
+        // Initialize
+        renderRecipes();
+
+        // Close modal on escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        // Close modal on outside click
+        document.getElementById('recipeModal').addEventListener('click', (e) => {
+            if (e.target.id === 'recipeModal') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

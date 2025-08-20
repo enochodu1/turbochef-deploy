@@ -1,0 +1,1435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TurboChef High H Batch 2 - Complete Guide</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --secondary: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --dark: #1f2937;
+            --light: #f3f4f6;
+            --white: #ffffff;
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--white);
+            min-height: 100vh;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%);
+            color: var(--white);
+            padding: 2rem;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.95;
+        }
+
+        /* Navigation */
+        nav {
+            background: var(--dark);
+            padding: 1rem;
+            position: sticky;
+            top: 140px;
+            z-index: 99;
+            box-shadow: var(--shadow);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            background: rgba(255,255,255,0.1);
+            transition: all 0.3s;
+            display: block;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        main {
+            padding: 2rem;
+            background: var(--white);
+        }
+
+        section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: var(--light);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+        }
+
+        section h2 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        section h3 {
+            color: var(--dark);
+            font-size: 1.5rem;
+            margin: 1.5rem 0 1rem;
+        }
+
+        section h4 {
+            color: var(--secondary);
+            font-size: 1.2rem;
+            margin: 1rem 0;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+
+        /* Recipe Cards */
+        .recipe-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fbbf24 100%);
+            border-left: 5px solid var(--warning);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 10px;
+        }
+
+        .recipe-card h4 {
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .recipe-specs {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .spec {
+            background: rgba(255,255,255,0.9);
+            padding: 0.5rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        .spec strong {
+            color: var(--primary);
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+            background: var(--white);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        th {
+            background: var(--primary);
+            color: var(--white);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--light);
+        }
+
+        tr:hover {
+            background: #f0f9ff;
+        }
+
+        /* Code blocks */
+        pre, code {
+            background: var(--dark);
+            color: #10b981;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        code {
+            padding: 0.2rem 0.5rem;
+        }
+
+        /* Alerts */
+        .alert {
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            border-left: 4px solid;
+        }
+
+        .alert-danger {
+            background: #fee2e2;
+            border-color: var(--danger);
+            color: #991b1b;
+        }
+
+        .alert-warning {
+            background: #fef3c7;
+            border-color: var(--warning);
+            color: #92400e;
+        }
+
+        .alert-success {
+            background: #d1fae5;
+            border-color: var(--secondary);
+            color: #064e3b;
+        }
+
+        .alert-info {
+            background: #dbeafe;
+            border-color: var(--primary);
+            color: #1e3a8a;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 0.5rem;
+        }
+
+        .btn:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-success {
+            background: var(--secondary);
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+
+        /* Quick Reference */
+        .quick-ref {
+            background: linear-gradient(135deg, #a7f3d0 0%, #10b981 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+        }
+
+        .quick-ref h3 {
+            color: var(--white);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        /* Grid layouts */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin-left: 2rem;
+            margin-top: 1rem;
+        }
+
+        li {
+            margin: 0.5rem 0;
+        }
+
+        /* Do's and Don'ts */
+        .dos-donts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin: 1.5rem 0;
+        }
+
+        .do-card {
+            background: #d1fae5;
+            border-left: 5px solid var(--secondary);
+        }
+
+        .dont-card {
+            background: #fee2e2;
+            border-left: 5px solid var(--danger);
+        }
+
+        .do-card h4 {
+            color: var(--secondary);
+        }
+
+        .dont-card h4 {
+            color: var(--danger);
+        }
+
+        /* Print Styles */
+        @media print {
+            body {
+                background: white;
+            }
+            
+            nav, header {
+                display: none;
+            }
+            
+            section {
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ccc;
+            }
+            
+            .no-print {
+                display: none;
+            }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.8rem;
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+            
+            .dos-donts {
+                grid-template-columns: 1fr;
+            }
+            
+            main {
+                padding: 1rem;
+            }
+            
+            section {
+                padding: 1rem;
+            }
+            
+            table {
+                font-size: 0.85rem;
+            }
+            
+            th, td {
+                padding: 0.5rem;
+            }
+        }
+
+        /* Floating Action Button */
+        .fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .fab:hover {
+            transform: scale(1.1);
+            background: #1d4ed8;
+        }
+
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid var(--light);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🔥 TurboChef High H Batch 2</h1>
+            <p>Complete Operating Guide & Recipe Programming Manual</p>
+        </header>
+
+        <nav>
+            <ul>
+                <li><a href="#quick-start">Quick Start</a></li>
+                <li><a href="#technology">Technology</a></li>
+                <li><a href="#programming">Programming</a></li>
+                <li><a href="#recipes">Recipes</a></li>
+                <li><a href="#cleaning">Cleaning</a></li>
+                <li><a href="#troubleshooting">Troubleshooting</a></li>
+                <li><a href="#charts">Charts</a></li>
+                <li><a href="#tips">Tips</a></li>
+                <li><a href="#safety">Safety</a></li>
+                <li><a href="#print" class="no-print" onclick="window.print()">📄 Print Guide</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            <!-- Quick Start Section -->
+            <section id="quick-start">
+                <h2>🚀 Quick Start Essentials</h2>
+                
+                <div class="alert alert-info">
+                    <strong>Model:</strong> TurboChef High H Batch 2 (HHB-2)<br>
+                    <strong>Capacity:</strong> Full sheet pan (18" × 13") or 16" pizza<br>
+                    <strong>Power:</strong> 208V or 240V (auto-detects)
+                </div>
+
+                <div class="card">
+                    <h3>First Time Setup</h3>
+                    <ol>
+                        <li>Press power button (left side)</li>
+                        <li>Wait 8-10 minutes for "Ready to Cook"</li>
+                        <li>Enable Edit Menu (hold top soft key 5 seconds)</li>
+                    </ol>
+                </div>
+
+                <div class="quick-ref">
+                    <h3>Basic Operation Flow</h3>
+                    <code>Power On → Warm Up → Select Group → Select Item → Place Food → Auto Cook → Remove</code>
+                </div>
+            </section>
+
+            <!-- Technology Section -->
+            <section id="technology">
+                <h2>⚡ Understanding the Technology</h2>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h4>What "High h" Means</h4>
+                        <p><strong>h = heat transfer coefficient</strong></p>
+                        <p>Transfers heat 3-4x more efficiently than regular convection ovens</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>How It Cooks</h4>
+                        <ul>
+                            <li>60 mph air jets from top & bottom</li>
+                            <li>Rack oscillates 2.5" side-to-side</li>
+                            <li>500°F maximum temperature</li>
+                            <li>Catalytic converter for ventless operation</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <h3>Temperature Zones</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Temperature</th>
+                            <th>Best For</th>
+                            <th>Examples</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>500°F</strong></td>
+                            <td>Maximum browning/crisping</td>
+                            <td>Fries, frozen items, pizza</td>
+                        </tr>
+                        <tr>
+                            <td><strong>475°F</strong></td>
+                            <td>Standard proteins</td>
+                            <td>Chicken, turkey, beef</td>
+                        </tr>
+                        <tr>
+                            <td><strong>450°F</strong></td>
+                            <td>Delicate items</td>
+                            <td>Fish, reheating</td>
+                        </tr>
+                        <tr>
+                            <td><strong>425°F</strong></td>
+                            <td>Gentle warming</td>
+                            <td>Bread, preventing overcooking</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Air Speed Settings</h3>
+                <div class="recipe-specs">
+                    <div class="spec"><strong>100%:</strong> Maximum 60 mph (aggressive browning)</div>
+                    <div class="spec"><strong>80%:</strong> Standard cooking (most items)</div>
+                    <div class="spec"><strong>60%:</strong> Gentle (prevents toppings blowing)</div>
+                    <div class="spec"><strong>40%:</strong> Very delicate (melting only)</div>
+                </div>
+            </section>
+
+            <!-- Programming Section -->
+            <section id="programming">
+                <h2>📝 Step-by-Step Programming</h2>
+                
+                <div class="alert alert-warning">
+                    <strong>IMPORTANT:</strong> Oven must be OFF or cooling to program recipes!
+                </div>
+
+                <div class="card">
+                    <h3>Enable Edit Mode First</h3>
+                    <ol>
+                        <li>Hold top-left or top-right soft key for 5 seconds</li>
+                        <li>Select "Edit Menu" → Turn ON</li>
+                        <li>Press BACK to exit</li>
+                    </ol>
+                </div>
+
+                <div class="card">
+                    <h3>Programming Sequence</h3>
+                
+                <div class="alert alert-info">
+                    <strong>IMPORTANT FIRST STEPS:</strong><br>
+                    • Oven MUST be OFF or cooling down<br>
+                    • Enable Edit Menu first (hold top corner soft key 5 seconds)<br>
+                    • Press "Edit Menu" soft key to turn ON<br>
+                    • Press BACK/STOP to exit options menu
+                </div>
+                    <ol>
+                        <li><strong>Enter Programming:</strong> Hold UP arrow 1 second</li>
+                        <li><strong>Set Temperature:</strong> Use UP/DOWN, press ENTER</li>
+                        <li><strong>Select Group:</strong> Press soft key under group</li>
+                        <li><strong>Select Slot:</strong> Press soft key under item</li>
+                        <li><strong>Enter Details:</strong>
+                            <ul>
+                                <li>Name (use number keys like old phone)</li>
+                                <li>Time (UP/DOWN in 5-sec increments)</li>
+                                <li>Rack (ON/OFF)</li>
+                                <li>Events (% time and % air)</li>
+                            </ul>
+                        </li>
+                        <li><strong>Save:</strong> Press ENTER</li>
+                    </ol>
+                </div>
+
+                <h3>Number Keypad Text Entry</h3>
+                <pre>
+2 = ABC    5 = JKL    8 = TUV
+3 = DEF    6 = MNO    9 = WXYZ
+4 = GHI    7 = PQRS   0 = 0
+          1 = Space
+                </pre>
+                
+                <h3>Detailed Button-by-Button Programming Example</h3>
+                <div class="card">
+                    <h4>Example: Programming Frozen Turkey Leg (Small)</h4>
+                    <ol style="font-size: 0.9rem;">
+                        <li>Hold UP arrow 1 second (enter programming)</li>
+                        <li>Press UP until "475" shows</li>
+                        <li>Press ENTER</li>
+                        <li>Press soft key under "1ST GROUP"</li>
+                        <li>Press soft key under "1ST ITEM"</li>
+                        <li>Name entry: T-U-R-K [space] L-E-G [space] S
+                            <ul>
+                                <li>Press 8 once = T</li>
+                                <li>Press 8 twice = U</li>
+                                <li>Press 7 twice = R</li>
+                                <li>Press 5 twice = K</li>
+                                <li>Press 1 = space</li>
+                                <li>Continue for LEG S...</li>
+                            </ul>
+                        </li>
+                        <li>Press RIGHT arrow to time field</li>
+                        <li>Press UP 216 times for 18:00</li>
+                        <li>Press RIGHT to Rack, press UP for ON</li>
+                        <li>Set Events: 70% time @ 90% air, then 30% @ 100%</li>
+                        <li>Press ENTER to save</li>
+                    </ol>
+                </div>
+            </section>
+
+            <!-- Recipes Section -->
+            <section id="recipes">
+                <h2>🍴 Recipe Programming Library</h2>
+
+                <div class="recipe-card">
+                    <h4>🍗 Frozen Turkey Leg</h4>
+                    <div class="recipe-specs">
+                        <div class="spec"><strong>Small (8-10oz):</strong> 18:00</div>
+                        <div class="spec"><strong>Medium (12-14oz):</strong> 20:00</div>
+                        <div class="spec"><strong>Large (16oz+):</strong> 22:00</div>
+                        <div class="spec"><strong>Temp:</strong> 475°F</div>
+                        <div class="spec"><strong>Rack:</strong> ON</div>
+                        <div class="spec"><strong>Event 1:</strong> 70% @ 90% air</div>
+                        <div class="spec"><strong>Event 2:</strong> 30% @ 100% air</div>
+                    </div>
+                </div>
+
+                <div class="recipe-card">
+                    <h4>🥔 Baked Potatoes</h4>
+                    <div class="recipe-specs">
+                        <div class="spec"><strong>8 oz:</strong> 15:00</div>
+                        <div class="spec"><strong>10 oz:</strong> 18:00</div>
+                        <div class="spec"><strong>12 oz:</strong> 20:00</div>
+                        <div class="spec"><strong>Temp:</strong> 500°F</div>
+                        <div class="spec"><strong>Rack:</strong> ON</div>
+                        <div class="spec"><strong>Air:</strong> 90%</div>
+                    </div>
+                </div>
+
+                <div class="recipe-card">
+                    <h4>🍟 French Fries</h4>
+                    <div class="recipe-specs">
+                        <div class="spec"><strong>Shoestring:</strong> 3:00</div>
+                        <div class="spec"><strong>Regular:</strong> 3:30</div>
+                        <div class="spec"><strong>Steak Cut:</strong> 5:00</div>
+                        <div class="spec"><strong>Temp:</strong> 500°F</div>
+                        <div class="spec"><strong>Rack:</strong> ON</div>
+                        <div class="spec"><strong>Air:</strong> 100%</div>
+                    </div>
+                </div>
+
+                <div class="recipe-card">
+                    <h4>🥟 Egg Rolls (1.5 oz)</h4>
+                    <div class="recipe-specs">
+                        <div class="spec"><strong>Time:</strong> 4:00</div>
+                        <div class="spec"><strong>Temp:</strong> 500°F</div>
+                        <div class="spec"><strong>Rack:</strong> ON</div>
+                        <div class="spec"><strong>Air:</strong> 100%</div>
+                        <div class="spec"><strong>Note:</strong> Spray with oil first!</div>
+                        <div class="spec"><strong>If not browning:</strong> Increase to 500°F, 100% air</div>
+                        <div class="spec"><strong>Placement:</strong> Space 1" apart</div>
+                        <div class="spec"><strong>Max quantity:</strong> 6-8 at once</div>
+                    </div>
+                </div>
+
+                <div class="recipe-card">
+                    <h4>🍗 Chicken Wings</h4>
+                    <div class="recipe-specs">
+                        <div class="spec"><strong>Frozen:</strong> 14:00</div>
+                        <div class="spec"><strong>Thawed:</strong> 10:00</div>
+                        <div class="spec"><strong>Temp:</strong> 475°F</div>
+                        <div class="spec"><strong>Rack:</strong> ON</div>
+                        <div class="spec"><strong>Frozen Events:</strong> 70%→30% @ 90%→100% air</div>
+                        <div class="spec"><strong>Thawed:</strong> 100% @ 85% air</div>
+                    </div>
+                </div>
+
+                <div class="recipe-card">
+                    <h4>🐟 Salmon Fillet</h4>
+                    <div class="recipe-specs">
+                        <div class="spec"><strong>Time:</strong> 4:00-5:00</div>
+                        <div class="spec"><strong>Temp:</strong> 450°F</div>
+                        <div class="spec"><strong>Rack:</strong> ON</div>
+                        <div class="spec"><strong>Event 1:</strong> 70% @ 80% air</div>
+                        <div class="spec"><strong>Event 2:</strong> 30% @ 60% air</div>
+                    </div>
+                </div>
+
+                <div class="recipe-card">
+                    <h4>🌶️ Bacon-Wrapped Jalapeño Poppers</h4>
+                    <div class="recipe-specs">
+                        <div class="spec"><strong>Time:</strong> 7:30</div>
+                        <div class="spec"><strong>Temp:</strong> 425°F</div>
+                        <div class="spec"><strong>Rack:</strong> ON</div>
+                        <div class="spec"><strong>Event 1:</strong> 70% @ 70% air</div>
+                        <div class="spec"><strong>Event 2:</strong> 30% @ 90% air</div>
+                        <div class="spec"><strong>Note:</strong> Use thin bacon!</div>
+                    </div>
+                </div>
+
+                <div class="recipe-card">
+                    <h4>🔄 Utility Recipes</h4>
+                    <div class="recipe-specs">
+                        <div class="spec"><strong>REHEAT:</strong> 425°F, 2:00, 60% air</div>
+                        <div class="spec"><strong>CRISPY:</strong> 500°F, 1:30, 100% air</div>
+                        <div class="spec"><strong>WARM:</strong> 350°F, 3:00, 40% air</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cleaning Section -->
+            <section id="cleaning">
+                <h2>🧹 Cleaning & Maintenance</h2>
+                
+                <div class="alert alert-danger">
+                    <strong>CRITICAL:</strong> Daily cleaning is NON-NEGOTIABLE! Prevents 90% of problems.
+                </div>
+
+                <div class="card">
+                    <h3>3-Minute Daily Cleaning</h3>
+                    <ol>
+                        <li>Wait for "Ready to Clean" (below 150°F)</li>
+                        <li>Remove wire rack</li>
+                        <li>Spray cavity with TurboChef cleaner</li>
+                        <li>Let sit 30 seconds</li>
+                        <li>Wipe with damp cloth</li>
+                        <li>Remove & rinse bottom jetplate (lift straight up)</li>
+                        <li>Rinse grease filter (gentle - no scrubbing!)</li>
+                        <li>Reinstall everything</li>
+                        <li>Spray Oven Guard lightly</li>
+                        <li>Close door - Done!</li>
+                    </ol>
+                </div>
+
+                <div class="card">
+                    <h3>Supply Part Numbers</h3>
+                    <table>
+                        <tr><td>TurboChef Cleaner</td><td>#103180</td></tr>
+                        <tr><td>TurboChef Oven Guard</td><td>#103181</td></tr>
+                        <tr><td>Grease Filter</td><td>#HHB-8287</td></tr>
+                        <tr><td>Top Jetplate</td><td>#HHB-8322</td></tr>
+                        <tr><td>Bottom Jetplate</td><td>#HHB-8321</td></tr>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Do's and Don'ts -->
+            <section id="dos-donts">
+                <h2>✅ Do's and Don'ts</h2>
+                
+                <div class="dos-donts">
+                    <div class="card do-card">
+                        <h4>✅ ALWAYS DO</h4>
+                        <ul>
+                            <li>Clean daily</li>
+                            <li>Place food directly on rack</li>
+                            <li>Use RACK ON setting</li>
+                            <li>Let oven reach "Ready"</li>
+                            <li>Spray oil BEFORE cooking</li>
+                            <li>Use only TurboChef cleaners</li>
+                            <li>Trust the timer</li>
+                            <li>Test one piece first</li>
+                            <li>Keep recipe notes</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card dont-card">
+                        <h4>❌ NEVER DO</h4>
+                        <ul>
+                            <li>Spray oil during cooking</li>
+                            <li>Open door to check</li>
+                            <li>Use metal on jetplates</li>
+                            <li>Stack food</li>
+                            <li>Skip daily cleaning</li>
+                            <li>Cook without food</li>
+                            <li>Use household cleaners</li>
+                            <li>Ignore smoke</li>
+                            <li>Force jetplates</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Troubleshooting Section -->
+            <section id="troubleshooting">
+                <h2>🔧 Troubleshooting Guide</h2>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h4>🔴 Not Browning</h4>
+                        <ul>
+                            <li>Increase to 500°F</li>
+                            <li>Set air to 100%</li>
+                            <li>Add 1-2 minutes</li>
+                            <li>Spray with oil first</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>🔴 Excessive Smoke</h4>
+                        <ul>
+                            <li>CLEAN IMMEDIATELY</li>
+                            <li>Check grease filter</li>
+                            <li>Clean jetplates</li>
+                            <li>Reduce cook time</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>🔴 Uneven Cooking</h4>
+                        <ul>
+                            <li>Ensure RACK is ON</li>
+                            <li>Don't overcrowd</li>
+                            <li>Clean jetplates</li>
+                            <li>Single layer only</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>🔴 Too Dark/Burnt</h4>
+                        <ul>
+                            <li>Reduce time 20%</li>
+                            <li>Lower to 450°F</li>
+                            <li>Reduce air to 70%</li>
+                            <li>Check cook mode</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="alert alert-info">
+                    <strong>Service Hotline:</strong> 1-800-90TURBO (1-800-908-8726)
+                </div>
+            </section>
+            
+            <!-- Rack Oscillation Section -->
+            <section id="rack-oscillation">
+                <h2>🔄 Understanding Rack Oscillation</h2>
+                
+                <div class="card">
+                    <h3>What Does RACK ON/OFF Mean?</h3>
+                    <div class="grid">
+                        <div>
+                            <h4>RACK ON = Moving/Oscillating</h4>
+                            <ul>
+                                <li>Rack moves slowly side-to-side</li>
+                                <li>2.5" total movement</li>
+                                <li>8-second cycle time</li>
+                                <li>Ensures even exposure to air jets</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4>RACK OFF = Stationary</h4>
+                            <ul>
+                                <li>Rack stays completely still</li>
+                                <li>Food remains in one position</li>
+                                <li>Creates "leopard spots"</li>
+                                <li>Rarely used (only for melting)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="alert alert-success">
+                    <strong>BOTTOM LINE:</strong> Leave RACK ON for 99% of cooking. It's essential for even browning!
+                </div>
+            </section>
+            
+            <!-- Pan vs Rack Section -->
+            <section id="pan-vs-rack">
+                <h2>🍳 Pan vs Directly on Rack</h2>
+                
+                <div class="dos-donts">
+                    <div class="card do-card">
+                        <h4>✅ Directly on Rack (BEST)</h4>
+                        <ul>
+                            <li>Turkey legs</li>
+                            <li>Whole potatoes</li>
+                            <li>Egg rolls</li>
+                            <li>Chicken pieces</li>
+                            <li>Frozen snacks</li>
+                            <li>Most proteins</li>
+                        </ul>
+                        <p><strong>Benefits:</strong> Fastest cooking, best browning, even cooking all around</p>
+                    </div>
+                    
+                    <div class="card dont-card">
+                        <h4>⚠️ When to Use a Pan</h4>
+                        <ul>
+                            <li>Items with excessive dripping</li>
+                            <li>Small items that fall through</li>
+                            <li>Delicate fish</li>
+                            <li>Items in sauce/liquid</li>
+                            <li>Raw bacon (grease management)</li>
+                        </ul>
+                        <p><strong>Note:</strong> Add 15-25% more cook time with pan</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Smoke Troubleshooting Section -->
+            <section id="smoke-guide">
+                <h2>💨 Smoke When Opening - Is It Normal?</h2>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h4>✅ Normal Smoke</h4>
+                        <ul>
+                            <li>Light wisp when door opens</li>
+                            <li>Fatty proteins (turkey legs)</li>
+                            <li>High-fat frozen items</li>
+                            <li>Items at 475-500°F</li>
+                            <li>First few uses if new</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>⚠️ NOT Normal</h4>
+                        <ul>
+                            <li>Thick billowing smoke</li>
+                            <li>Smoke during entire cycle</li>
+                            <li>Acrid/burning smell</li>
+                            <li>Smoke with lean foods</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="alert alert-danger">
+                    <strong>#1 CAUSE OF EXCESS SMOKE:</strong> Dirty oven! Daily cleaning is REQUIRED.
+                </div>
+            </section>
+            
+            <!-- Oil Spraying Section -->
+            <section id="oil-guide">
+                <h2>🧈 Oil & Butter Usage Guide</h2>
+                
+                <div class="alert alert-danger">
+                    <strong>❌ NEVER SPRAY OIL DURING COOKING!</strong><br>
+                    Interior is 475-500°F - oil spray can ignite!<br>
+                    Opening door stops cycle and loses heat.
+                </div>
+                
+                <div class="card">
+                    <h3>✅ Correct Way to Use Oil/Butter</h3>
+                    <ol>
+                        <li><strong>BEFORE cooking:</strong> Spray or brush food at prep station</li>
+                        <li><strong>Best oils:</strong> High-heat cooking spray (avocado, canola)</li>
+                        <li><strong>For browning:</strong> Light coating only - excess causes smoke</li>
+                    </ol>
+                    
+                    <h4>Which Foods Need Oil?</h4>
+                    <ul>
+                        <li><strong>Egg rolls:</strong> Essential for golden color</li>
+                        <li><strong>Potato skins:</strong> For crispiness</li>
+                        <li><strong>Salmon:</strong> Prevents sticking</li>
+                        <li><strong>Turkey legs:</strong> Golden crispy skin</li>
+                        <li><strong>Frozen fries:</strong> Already have oil - DON'T add more!</li>
+                    </ul>
+                </div>
+            </section>
+            
+            <!-- Best Practices Section -->
+            <section id="best-practices">
+                <h2>🏆 Best Practices & Pro Tips</h2>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h4>🎯 Loading & Capacity</h4>
+                        <ul>
+                            <li>Full sheet pan (18" × 13") capacity</li>
+                            <li>Similar sizes together</li>
+                            <li>1" spacing between items</li>
+                            <li>Single layer only</li>
+                            <li>Center = most even cooking</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>⚡ Speed Optimization</h4>
+                        <ul>
+                            <li>Don't open door to check</li>
+                            <li>Trust the timer</li>
+                            <li>Pre-stage next batch</li>
+                            <li>No recovery time between batches</li>
+                            <li>Cook same temps back-to-back</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>🔢 Easy Programming Tricks</h4>
+                        <ul>
+                            <li><strong>Copy & Modify:</strong> Edit similar recipe</li>
+                            <li><strong>Universal start:</strong> 475°F, 5:00, 80% air</li>
+                            <li><strong>Test method:</strong> Start short, add time</li>
+                            <li><strong>Smart Card:</strong> Backup all recipes</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>💡 Menu Organization</h4>
+                        <ul>
+                            <li>Groups 1-3: Proteins</li>
+                            <li>Groups 4-6: Vegetables</li>
+                            <li>Groups 7-9: Frozen items</li>
+                            <li>Groups 10-12: Utilities/Reheat</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="quick-ref">
+                    <h3>🚀 The Ultimate Lazy Method</h3>
+                    <p>Just use these 3 settings for everything:</p>
+                    <ul>
+                        <li><strong>FROZEN:</strong> 500°F, 100% air, adjust time</li>
+                        <li><strong>FRESH:</strong> 475°F, 80% air, adjust time</li>
+                        <li><strong>REHEAT:</strong> 425°F, 60% air, 2:00</li>
+                    </ul>
+                    <p>Then just vary the TIME for different items!</p>
+                </div>
+            </section>
+
+            <!-- Cooking Charts -->
+            <section id="charts">
+                <h2>📊 Quick Reference Cooking Charts</h2>
+                
+                <h3>Proteins</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>State</th>
+                            <th>Temp</th>
+                            <th>Time</th>
+                            <th>Rack</th>
+                            <th>Air%</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Turkey Leg Small</td>
+                            <td>Frozen</td>
+                            <td>475°F</td>
+                            <td>18:00</td>
+                            <td>ON</td>
+                            <td>90→100</td>
+                        </tr>
+                        <tr>
+                            <td>Turkey Leg Med</td>
+                            <td>Frozen</td>
+                            <td>475°F</td>
+                            <td>20:00</td>
+                            <td>ON</td>
+                            <td>90→100</td>
+                        </tr>
+                        <tr>
+                            <td>Turkey Leg Large</td>
+                            <td>Frozen</td>
+                            <td>475°F</td>
+                            <td>22:00</td>
+                            <td>ON</td>
+                            <td>90→100</td>
+                        </tr>
+                        <tr>
+                            <td>Chicken Wings</td>
+                            <td>Frozen</td>
+                            <td>475°F</td>
+                            <td>14:00</td>
+                            <td>ON</td>
+                            <td>90→100</td>
+                        </tr>
+                        <tr>
+                            <td>Chicken Wings</td>
+                            <td>Thawed</td>
+                            <td>475°F</td>
+                            <td>10:00</td>
+                            <td>ON</td>
+                            <td>85</td>
+                        </tr>
+                        <tr>
+                            <td>Chicken Breast</td>
+                            <td>Raw</td>
+                            <td>475°F</td>
+                            <td>7:00</td>
+                            <td>ON</td>
+                            <td>80</td>
+                        </tr>
+                        <tr>
+                            <td>Salmon Fillet</td>
+                            <td>Thawed</td>
+                            <td>450°F</td>
+                            <td>4:00</td>
+                            <td>ON</td>
+                            <td>80→60</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Vegetables</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Size</th>
+                            <th>Temp</th>
+                            <th>Time</th>
+                            <th>Rack</th>
+                            <th>Air%</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Baked Potato</td>
+                            <td>8 oz</td>
+                            <td>500°F</td>
+                            <td>15:00</td>
+                            <td>ON</td>
+                            <td>90</td>
+                        </tr>
+                        <tr>
+                            <td>Baked Potato</td>
+                            <td>10 oz</td>
+                            <td>500°F</td>
+                            <td>18:00</td>
+                            <td>ON</td>
+                            <td>90</td>
+                        </tr>
+                        <tr>
+                            <td>Baked Potato</td>
+                            <td>12 oz</td>
+                            <td>500°F</td>
+                            <td>20:00</td>
+                            <td>ON</td>
+                            <td>90</td>
+                        </tr>
+                        <tr>
+                            <td>Asparagus</td>
+                            <td>Bundle</td>
+                            <td>475°F</td>
+                            <td>3:30</td>
+                            <td>ON</td>
+                            <td>80</td>
+                        </tr>
+                        <tr>
+                            <td>Broccoli</td>
+                            <td>Florets</td>
+                            <td>475°F</td>
+                            <td>4:30</td>
+                            <td>ON</td>
+                            <td>80</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Frozen Items</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Type</th>
+                            <th>Temp</th>
+                            <th>Time</th>
+                            <th>Rack</th>
+                            <th>Air%</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>French Fries</td>
+                            <td>Shoestring</td>
+                            <td>500°F</td>
+                            <td>3:00</td>
+                            <td>ON</td>
+                            <td>100</td>
+                        </tr>
+                        <tr>
+                            <td>French Fries</td>
+                            <td>Regular</td>
+                            <td>500°F</td>
+                            <td>3:30</td>
+                            <td>ON</td>
+                            <td>100</td>
+                        </tr>
+                        <tr>
+                            <td>French Fries</td>
+                            <td>Steak</td>
+                            <td>500°F</td>
+                            <td>5:00</td>
+                            <td>ON</td>
+                            <td>100</td>
+                        </tr>
+                        <tr>
+                            <td>Egg Rolls</td>
+                            <td>1.5 oz</td>
+                            <td>500°F</td>
+                            <td>4:00</td>
+                            <td>ON</td>
+                            <td>100</td>
+                        </tr>
+                        <tr>
+                            <td>Mozzarella Sticks</td>
+                            <td>Standard</td>
+                            <td>500°F</td>
+                            <td>3:00</td>
+                            <td>ON</td>
+                            <td>100</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Tips Section -->
+            <section id="tips">
+                <h2>💡 Tips & Shortcuts</h2>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h4>⚡ Copy & Modify Trick</h4>
+                        <ol>
+                            <li>Find similar recipe</li>
+                            <li>Edit it</li>
+                            <li>Change name/time only</li>
+                            <li>Save to new slot</li>
+                            <li>Done in 30 seconds!</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>🎯 Universal Starting Point</h4>
+                        <p><strong>475°F, 5:00, Rack ON, 80% air</strong></p>
+                        <p>Works for 70% of items - just adjust time!</p>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>📱 Group Organization</h4>
+                        <ul>
+                            <li>Groups 1-3: Proteins</li>
+                            <li>Groups 4-6: Vegetables</li>
+                            <li>Groups 7-9: Frozen items</li>
+                            <li>Groups 10-12: Utilities</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>🔄 Conversion Formula</h4>
+                        <p><strong>From Conventional Oven:</strong></p>
+                        <ul>
+                            <li>Time ÷ 3-4</li>
+                            <li>Temp -25°F if over 400°F</li>
+                            <li>Add Rack ON</li>
+                            <li>Set 70-100% air</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Safety Section -->
+            <section id="safety">
+                <h2>🔐 Raw Food Safety</h2>
+                
+                <div class="alert alert-warning">
+                    <strong>Ventless Operation Limitations:</strong><br>
+                    Cannot cook without hood: Raw bacon, bone-in skin-on chicken, items over 30% fat
+                </div>
+
+                <h3>Can I Cook Raw Chicken?</h3>
+                <div class="alert alert-success">
+                    <strong>YES!</strong> The TurboChef can safely cook raw chicken and other proteins.
+                </div>
+                
+                <div class="card">
+                    <h4>Raw Chicken Settings</h4>
+                    <ul>
+                        <li><strong>Chicken Breast:</strong> 475°F, 7:00-8:00, ON, 80% air</li>
+                        <li><strong>Chicken Thighs:</strong> 475°F, 9:00-10:00, ON, 80% air</li>
+                        <li><strong>Chicken Tenders:</strong> 475°F, 5:00-6:00, ON, 80% air</li>
+                    </ul>
+                </div>
+                
+                <h3>Internal Temperature Requirements</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Food Type</th>
+                            <th>Required Internal Temp</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Poultry</td><td>165°F</td></tr>
+                        <tr><td>Ground Meat</td><td>160°F</td></tr>
+                        <tr><td>Pork</td><td>145°F + 3 min rest</td></tr>
+                        <tr><td>Beef/Lamb</td><td>145°F (medium)</td></tr>
+                        <tr><td>Seafood</td><td>145°F</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>Safe Raw Cooking Guidelines</h3>
+                <div class="grid">
+                    <div class="card">
+                        <h4>Chicken Breast</h4>
+                        <p>475°F, 7:00, ON, 80% air</p>
+                    </div>
+                    <div class="card">
+                        <h4>Salmon</h4>
+                        <p>450°F, 4:00, ON, 70% air</p>
+                    </div>
+                    <div class="card">
+                        <h4>Steak (1")</h4>
+                        <p>475°F, 5:00, ON, 90% air</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Print Section -->
+            <section id="print-card" class="quick-ref">
+                <h2>📋 Quick Reference Card</h2>
+                
+                <div class="grid">
+                    <div class="card">
+                        <h4>Daily Operation</h4>
+                        <ol>
+                            <li>Power ON → Wait for READY</li>
+                            <li>Food on rack (no pan)</li>
+                            <li>Select GROUP → ITEM</li>
+                            <li>Remove when beeps</li>
+                            <li>Clean daily!</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>Most Used Settings</h4>
+                        <ul>
+                            <li>Proteins: 475°F, 80% air</li>
+                            <li>Frozen: 500°F, 100% air</li>
+                            <li>Vegetables: 475°F, 80% air</li>
+                            <li>Reheat: 425°F, 60% air</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>Quick Troubleshooting</h4>
+                        <ul>
+                            <li>Not browning → 500°F + 100% air</li>
+                            <li>Smoking → Clean immediately</li>
+                            <li>Uneven → RACK must be ON</li>
+                            <li>Too dark → Reduce time 20%</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="card">
+                        <h4>Emergency Contact</h4>
+                        <p><strong>TurboChef Service</strong><br>
+                        1-800-90TURBO<br>
+                        (1-800-908-8726)</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Floating Action Button -->
+        <div class="fab no-print" onclick="window.scrollTo(0,0)" title="Back to Top">
+            ↑
+        </div>
+    </div>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('nav a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add active class to nav items on scroll
+        window.addEventListener('scroll', () => {
+            let current = '';
+            const sections = document.querySelectorAll('section');
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= (sectionTop - 200)) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            document.querySelectorAll('nav a').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.style.background = '#2563eb';
+                } else {
+                    link.style.background = 'rgba(255,255,255,0.1)';
+                }
+            });
+        });
+
+        // Show/hide FAB based on scroll position
+        const fab = document.querySelector('.fab');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                fab.style.display = 'flex';
+            } else {
+                fab.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>
