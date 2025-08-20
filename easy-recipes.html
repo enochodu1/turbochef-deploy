@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TurboChef Easy Recipe Cards - High H Batch 2</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1f2937;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.5rem;
+            opacity: 0.95;
+        }
+
+        .recipes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 25px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .recipe-card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            border: 4px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .recipe-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+
+        .recipe-card.protein {
+            border-color: #ef4444;
+            background: linear-gradient(to bottom, #fef2f2, white);
+        }
+
+        .recipe-card.side {
+            border-color: #f59e0b;
+            background: linear-gradient(to bottom, #fffbeb, white);
+        }
+
+        .recipe-card.appetizer {
+            border-color: #8b5cf6;
+            background: linear-gradient(to bottom, #faf5ff, white);
+        }
+
+        .recipe-card.seafood {
+            border-color: #06b6d4;
+            background: linear-gradient(to bottom, #ecfeff, white);
+        }
+
+        .recipe-card.utility {
+            border-color: #10b981;
+            background: linear-gradient(to bottom, #f0fdf4, white);
+        }
+
+        .recipe-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .recipe-icon {
+            font-size: 2.5rem;
+        }
+
+        .temp-time {
+            background: #1f2937;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .temp {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #fbbf24;
+            margin-bottom: 10px;
+        }
+
+        .time-options {
+            margin-top: 15px;
+        }
+
+        .time-option {
+            background: rgba(255,255,255,0.1);
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            font-size: 1.3rem;
+        }
+
+        .time-option strong {
+            color: #60a5fa;
+        }
+
+        .settings {
+            background: #f3f4f6;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .setting-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 1.2rem;
+        }
+
+        .setting-row:last-child {
+            border-bottom: none;
+        }
+
+        .setting-label {
+            font-weight: bold;
+            color: #4b5563;
+        }
+
+        .setting-value {
+            font-weight: bold;
+            color: #1f2937;
+        }
+
+        .events {
+            background: #fef3c7;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #f59e0b;
+            margin-bottom: 15px;
+        }
+
+        .event {
+            font-size: 1.2rem;
+            padding: 5px 0;
+        }
+
+        .notes {
+            background: #dbeafe;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #3b82f6;
+            font-size: 1.1rem;
+        }
+
+        .notes strong {
+            color: #1e40af;
+        }
+
+        .programming-steps {
+            background: #d1fae5;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border: 2px solid #10b981;
+        }
+
+        .programming-steps h4 {
+            color: #065f46;
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+
+        .programming-steps ol {
+            margin-left: 20px;
+            line-height: 1.8;
+        }
+
+        .programming-steps li {
+            font-size: 1.1rem;
+            margin: 5px 0;
+        }
+
+        .lazy-section {
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px auto;
+            max-width: 1600px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .lazy-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .lazy-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .lazy-card {
+            background: white;
+            color: #1f2937;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .lazy-card h3 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .lazy-card .big-temp {
+            font-size: 4rem;
+            font-weight: bold;
+            color: #ef4444;
+            margin: 20px 0;
+        }
+
+        .lazy-card .big-air {
+            font-size: 2.5rem;
+            color: #3b82f6;
+            margin: 15px 0;
+        }
+
+        .lazy-card .use-for {
+            background: #f3f4f6;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .recipes-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .lazy-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .print-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #3b82f6;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.5);
+            transition: all 0.3s;
+        }
+
+        .print-btn:hover {
+            background: #2563eb;
+            transform: scale(1.1);
+        }
+
+        @media print {
+            .print-btn {
+                display: none;
+            }
+            
+            body {
+                background: white;
+            }
+            
+            .recipe-card {
+                break-inside: avoid;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🔥 TURBOCHEF HIGH H BATCH 2 🔥</h1>
+        <p>Quick Reference Recipe Cards - EASY TO READ!</p>
+    </div>
+
+    <!-- The 3 Universal Settings -->
+    <div class="lazy-section">
+        <h2>⚡ THE LAZY METHOD - USE THESE 3 FOR EVERYTHING! ⚡</h2>
+        <div class="lazy-cards">
+            <div class="lazy-card">
+                <h3>❄️ FROZEN</h3>
+                <div class="big-temp">500°F</div>
+                <div class="big-air">100% AIR</div>
+                <div class="use-for">
+                    <strong>Use For:</strong><br>
+                    Frozen fries, nuggets, pizza, egg rolls, ANY frozen food
+                </div>
+            </div>
+            <div class="lazy-card">
+                <h3>🍖 FRESH</h3>
+                <div class="big-temp">475°F</div>
+                <div class="big-air">80% AIR</div>
+                <div class="use-for">
+                    <strong>Use For:</strong><br>
+                    Fresh meat, sandwiches, vegetables, ANY fresh food
+                </div>
+            </div>
+            <div class="lazy-card">
+                <h3>♻️ REHEAT</h3>
+                <div class="big-temp">425°F</div>
+                <div class="big-air">60% AIR</div>
+                <div class="use-for">
+                    <strong>Use For:</strong><br>
+                    Leftover pizza, old fries, yesterday's food
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recipe Cards -->
+    <div class="recipes-grid">
+        
+        <!-- Turkey Leg -->
+        <div class="recipe-card protein">
+            <h2 class="recipe-title">
+                <span class="recipe-icon">🍗</span>
+                Frozen Turkey Leg
+            </h2>
+            <div class="temp-time">
+                <div class="temp">475°F</div>
+                <div class="time-options">
+                    <div class="time-option"><strong>Small (8-10oz):</strong> 18:00</div>
+                    <div class="time-option"><strong>Medium (12-14oz):</strong> 20:00</div>
+                    <div class="time-option"><strong>Large (16oz+):</strong> 22:00</div>
+                </div>
+            </div>
+            <div class="settings">
+                <div class="setting-row">
+                    <span class="setting-label">Rack:</span>
+                    <span class="setting-value">ON</span>
+                </div>
+            </div>
+            <div class="events">
+                <div class="event"><strong>Event 1:</strong> 70% time @ 90% air</div>
+                <div class="event"><strong>Event 2:</strong> 30% time @ 100% air</div>
+            </div>
+            <div class="programming-steps">
+                <h4>Quick Programming:</h4>
+                <ol>
+                    <li>Hold UP arrow 1 sec</li>
+                    <li>Set to 475°F → ENTER</li>
+                    <li>Select slot</li>
+                    <li>Name: TURK LEG</li>
+                    <li>Time: 18:00 (or adjust)</li>
+                    <li>Rack: ON</li>
+                    <li>Events: 70/90, 30/100</li>
+                    <li>ENTER to save</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Baked Potatoes -->
+        <div class="recipe-card side">
+            <h2 class="recipe-title">
+                <span class="recipe-icon">🥔</span>
+                Baked Potatoes
+            </h2>
+            <div class="temp-time">
+                <div class="temp">500°F</div>
+                <div class="time-options">
+                    <div class="time-option"><strong>8 oz:</strong> 15:00</div>
+                    <div class="time-option"><strong>10 oz:</strong> 18:00</div>
+                    <div class="time-option"><strong>12 oz:</strong> 20:00</div>
+                </div>
+            </div>
+            <div class="settings">
+                <div class="setting-row">
+                    <span class="setting-label">Rack:</span>
+                    <span class="setting-value">ON</span>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Air:</span>
+                    <span class="setting-value">90%</span>
+                </div>
+            </div>
+            <div class="programming-steps">
+                <h4>Quick Programming:</h4>
+                <ol>
+                    <li>Hold UP arrow 1 sec</li>
+                    <li>Set to 500°F → ENTER</li>
+                    <li>Select slot</li>
+                    <li>Name: POTATO</li>
+                    <li>Time: 15:00-20:00</li>
+                    <li>Rack: ON</li>
+                    <li>Air: 90%</li>
+                    <li>ENTER to save</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- French Fries -->
+        <div class="recipe-card side">
+            <h2 class="recipe-title">
+                <span class="recipe-icon">🍟</span>
+                French Fries
+            </h2>
+            <div class="temp-time">
+                <div class="temp">500°F</div>
+                <div class="time-options">
+                    <div class="time-option"><strong>Shoestring:</strong> 3:00</div>
+                    <div class="time-option"><strong>Regular:</strong> 3:30</div>
+                    <div class="time-option"><strong>Steak Cut:</strong> 5:00</div>
+                </div>
+            </div>
+            <div class="settings">
+                <div class="setting-row">
+                    <span class="setting-label">Rack:</span>
+                    <span class="setting-value">ON</span>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Air:</span>
+                    <span class="setting-value">100%</span>
+                </div>
+            </div>
+            <div class="programming-steps">
+                <h4>Quick Programming:</h4>
+                <ol>
+                    <li>Hold UP arrow 1 sec</li>
+                    <li>Set to 500°F → ENTER</li>
+                    <li>Select slot</li>
+                    <li>Name: FRIES</li>
+                    <li>Time: 3:30 (regular)</li>
+                    <li>Rack: ON</li>
+                    <li>Air: 100%</li>
+                    <li>ENTER to save</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Egg Rolls -->
+        <div class="recipe-card appetizer">
+            <h2 class="recipe-title">
+                <span class="recipe-icon">🥟</span>
+                Egg Rolls (1.5 oz)
+            </h2>
+            <div class="temp-time">
+                <div class="temp">500°F</div>
+                <div class="time-options">
+                    <div class="time-option"><strong>Time:</strong> 4:00</div>
+                </div>
+            </div>
+            <div class="settings">
+                <div class="setting-row">
+                    <span class="setting-label">Rack:</span>
+                    <span class="setting-value">ON</span>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Air:</span>
+                    <span class="setting-value">100%</span>
+                </div>
+            </div>
+            <div class="notes">
+                <strong>⚠️ IMPORTANT:</strong><br>
+                • Spray with oil first!<br>
+                • Space 1" apart<br>
+                • Max 6-8 at once<br>
+                • If not browning: Already at max temp/air
+            </div>
+            <div class="programming-steps">
+                <h4>Quick Programming:</h4>
+                <ol>
+                    <li>Hold UP arrow 1 sec</li>
+                    <li>Set to 500°F → ENTER</li>
+                    <li>Select slot</li>
+                    <li>Name: EGG ROLL</li>
+                    <li>Time: 4:00</li>
+                    <li>Rack: ON</li>
+                    <li>Air: 100%</li>
+                    <li>ENTER to save</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Chicken Wings -->
+        <div class="recipe-card protein">
+            <h2 class="recipe-title">
+                <span class="recipe-icon">🍗</span>
+                Chicken Wings
+            </h2>
+            <div class="temp-time">
+                <div class="temp">475°F</div>
+                <div class="time-options">
+                    <div class="time-option"><strong>Frozen:</strong> 14:00</div>
+                    <div class="time-option"><strong>Thawed:</strong> 10:00</div>
+                </div>
+            </div>
+            <div class="settings">
+                <div class="setting-row">
+                    <span class="setting-label">Rack:</span>
+                    <span class="setting-value">ON</span>
+                </div>
+            </div>
+            <div class="events">
+                <div class="event"><strong>Frozen Event 1:</strong> 70% @ 90% air</div>
+                <div class="event"><strong>Frozen Event 2:</strong> 30% @ 100% air</div>
+                <div class="event"><strong>Thawed:</strong> 100% @ 85% air</div>
+            </div>
+            <div class="programming-steps">
+                <h4>Quick Programming:</h4>
+                <ol>
+                    <li>Hold UP arrow 1 sec</li>
+                    <li>Set to 475°F → ENTER</li>
+                    <li>Select slot</li>
+                    <li>Name: WINGS</li>
+                    <li>Time: 14:00 (frozen)</li>
+                    <li>Rack: ON</li>
+                    <li>Events: 70/90, 30/100</li>
+                    <li>ENTER to save</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Salmon -->
+        <div class="recipe-card seafood">
+            <h2 class="recipe-title">
+                <span class="recipe-icon">🐟</span>
+                Salmon Fillet
+            </h2>
+            <div class="temp-time">
+                <div class="temp">450°F</div>
+                <div class="time-options">
+                    <div class="time-option"><strong>Time:</strong> 4:00-5:00</div>
+                </div>
+            </div>
+            <div class="settings">
+                <div class="setting-row">
+                    <span class="setting-label">Rack:</span>
+                    <span class="setting-value">ON</span>
+                </div>
+            </div>
+            <div class="events">
+                <div class="event"><strong>Event 1:</strong> 70% @ 80% air</div>
+                <div class="event"><strong>Event 2:</strong> 30% @ 60% air</div>
+            </div>
+            <div class="programming-steps">
+                <h4>Quick Programming:</h4>
+                <ol>
+                    <li>Hold UP arrow 1 sec</li>
+                    <li>Set to 450°F → ENTER</li>
+                    <li>Select slot</li>
+                    <li>Name: SALMON</li>
+                    <li>Time: 4:30</li>
+                    <li>Rack: ON</li>
+                    <li>Events: 70/80, 30/60</li>
+                    <li>ENTER to save</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Jalapeño Poppers -->
+        <div class="recipe-card appetizer">
+            <h2 class="recipe-title">
+                <span class="recipe-icon">🌶️</span>
+                Bacon Jalapeño Poppers
+            </h2>
+            <div class="temp-time">
+                <div class="temp">425°F</div>
+                <div class="time-options">
+                    <div class="time-option"><strong>Time:</strong> 7:30</div>
+                </div>
+            </div>
+            <div class="settings">
+                <div class="setting-row">
+                    <span class="setting-label">Rack:</span>
+                    <span class="setting-value">ON</span>
+                </div>
+            </div>
+            <div class="events">
+                <div class="event"><strong>Event 1:</strong> 70% @ 70% air</div>
+                <div class="event"><strong>Event 2:</strong> 30% @ 90% air</div>
+            </div>
+            <div class="notes">
+                <strong>⚠️ Note:</strong> Use thin bacon!
+            </div>
+            <div class="programming-steps">
+                <h4>Quick Programming:</h4>
+                <ol>
+                    <li>Hold UP arrow 1 sec</li>
+                    <li>Set to 425°F → ENTER</li>
+                    <li>Select slot</li>
+                    <li>Name: POPPERS</li>
+                    <li>Time: 7:30</li>
+                    <li>Rack: ON</li>
+                    <li>Events: 70/70, 30/90</li>
+                    <li>ENTER to save</li>
+                </ol>
+            </div>
+        </div>
+
+        <!-- Utility Recipes -->
+        <div class="recipe-card utility">
+            <h2 class="recipe-title">
+                <span class="recipe-icon">♻️</span>
+                REHEAT
+            </h2>
+            <div class="temp-time">
+                <div class="temp">425°F</div>
+                <div class="time-options">
+                    <div class="time-option"><strong>Time:</strong> 2:00</div>
+                </div>
+            </div>
+            <div class="settings">
+                <div class="setting-row">
+                    <span class="setting-label">Rack:</span>
+                    <span class="setting-value">ON</span>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Air:</span>
+                    <span class="setting-value">60%</span>
+                </div>
+            </div>
+            <div class="notes">
+                <strong>Universal reheat for any leftover food</strong>
+            </div>
+        </div>
+
+        <div class="recipe-card utility">
+            <h2 class="recipe-title">
+                <span class="recipe-icon">✨</span>
+                CRISPY
+            </h2>
+            <div class="temp-time">
+                <div class="temp">500°F</div>
+                <div class="time-options">
+                    <div class="time-option"><strong>Time:</strong> 1:30</div>
+                </div>
+            </div>
+            <div class="settings">
+                <div class="setting-row">
+                    <span class="setting-label">Rack:</span>
+                    <span class="setting-value">ON</span>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Air:</span>
+                    <span class="setting-value">100%</span>
+                </div>
+            </div>
+            <div class="notes">
+                <strong>Make anything crispy quickly</strong>
+            </div>
+        </div>
+
+        <div class="recipe-card utility">
+            <h2 class="recipe-title">
+                <span class="recipe-icon">🔥</span>
+                WARM
+            </h2>
+            <div class="temp-time">
+                <div class="temp">350°F</div>
+                <div class="time-options">
+                    <div class="time-option"><strong>Time:</strong> 3:00</div>
+                </div>
+            </div>
+            <div class="settings">
+                <div class="setting-row">
+                    <span class="setting-label">Rack:</span>
+                    <span class="setting-value">ON</span>
+                </div>
+                <div class="setting-row">
+                    <span class="setting-label">Air:</span>
+                    <span class="setting-value">40%</span>
+                </div>
+            </div>
+            <div class="notes">
+                <strong>Keep food warm without overcooking</strong>
+            </div>
+        </div>
+
+    </div>
+
+    <button class="print-btn" onclick="window.print()">🖨️ Print Recipe Cards</button>
+
+</body>
+</html>
