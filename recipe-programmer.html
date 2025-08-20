@@ -832,6 +832,72 @@
             }
         }
 
+        // Existing TurboChef recipes database
+        const existingRecipes = [
+            { name: '🍗 Chicken Wings (frozen)', temp: 450, time: 840, category: 'Poultry' },
+            { name: '🍕 Pizza 16" Fresh', temp: 500, time: 180, category: 'Pizza' },
+            { name: '🧀 Mozzarella Sticks', temp: 500, time: 190, category: 'Appetizer' },
+            { name: '🍗 Chicken Tenders', temp: 500, time: 135, category: 'Poultry' },
+            { name: '🍟 French Fries', temp: 500, time: 240, category: 'Sides' },
+            { name: '🥪 Grilled Cheese', temp: 475, time: 90, category: 'Sandwich' },
+            { name: '🧀 Mac & Cheese Bites', temp: 475, time: 105, category: 'Appetizer' },
+            { name: '🍳 Breakfast Sandwich', temp: 500, time: 105, category: 'Breakfast' },
+            { name: '🍗 Chicken Breast (raw)', temp: 500, time: 350, category: 'Poultry' },
+            { name: '🍕 Pizza 14" Frozen', temp: 500, time: 390, category: 'Pizza' },
+            { name: '🌮 Quesadilla', temp: 500, time: 60, category: 'Mexican' },
+            { name: '🍪 Chocolate Chip Cookies', temp: 350, time: 420, category: 'Dessert' },
+            { name: '🥔 Tater Tots', temp: 500, time: 165, category: 'Sides' },
+            { name: '🍔 Hamburger (precooked)', temp: 500, time: 120, category: 'Sandwich' },
+            { name: '🌮 Nachos', temp: 500, time: 90, category: 'Mexican' },
+            { name: '🥯 Bagel, Toasted', temp: 500, time: 35, category: 'Breakfast' },
+            { name: '🌭 Corn Dogs', temp: 500, time: 60, category: 'Sandwich' },
+            { name: '🥟 Egg Rolls', temp: 500, time: 120, category: 'Appetizer' },
+            { name: '🥔 Hash Browns', temp: 500, time: 180, category: 'Breakfast' },
+            { name: '🍰 Lava Cake', temp: 500, time: 75, category: 'Dessert' },
+            { name: '🥖 Sub Sandwich 6"', temp: 500, time: 25, category: 'Sandwich' },
+            { name: '🥔 Baked Potato', temp: 450, time: 360, category: 'Sides' },
+            { name: '🍗 Chicken Nuggets', temp: 500, time: 90, category: 'Poultry' },
+            { name: '🐟 Fish Filet (breaded)', temp: 500, time: 120, category: 'Seafood' },
+            { name: '🧅 Onion Rings', temp: 475, time: 150, category: 'Appetizer' },
+            { name: '🌯 Burrito', temp: 500, time: 75, category: 'Mexican' },
+            { name: '🍕 Pizza Personal 8"', temp: 500, time: 70, category: 'Pizza' },
+            { name: '🍗 Popcorn Chicken', temp: 500, time: 120, category: 'Poultry' },
+            { name: '🐟 Salmon (fresh)', temp: 450, time: 120, category: 'Seafood' },
+            { name: '🌶️ Jalapeno Poppers', temp: 450, time: 240, category: 'Appetizer' }
+        ];
+
+        function displayExistingRecipes() {
+            const container = document.getElementById('existingRecipesList');
+            const html = existingRecipes.map(recipe => `
+                <div class="existing-recipe-item" onclick="loadExistingRecipe('${recipe.name}', ${recipe.temp}, ${recipe.time})">
+                    <div style="font-weight: bold;">${recipe.name}</div>
+                    <div style="font-size: 0.9rem; color: #6b7280;">
+                        ${recipe.temp}°F | ${Math.floor(recipe.time/60)}:${(recipe.time%60).toString().padStart(2,'0')} | ${recipe.category}
+                    </div>
+                </div>
+            `).join('');
+            container.innerHTML = html;
+        }
+
+        function loadExistingRecipe(name, temp, time) {
+            document.getElementById('recipeName').value = name.replace(/[🍗🍕🧀🍟🥪🧀🍳🌮🍪🥔🍔🥯🌭🥟🍰🥖🐟🧅🌯🌶️]/g, '').trim();
+            
+            // Clear stages and add one with the recipe settings
+            document.getElementById('cookingStages').innerHTML = '';
+            stageCount = 0;
+            addStage();
+            
+            document.getElementById('temp1').value = temp;
+            document.getElementById('time1').value = time;
+            document.getElementById('fan1').value = 85;
+            setPower(1, 50);
+            
+            generateCode();
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
         // Initialize
         displaySavedRecipes();
         updatePreview();
@@ -842,6 +908,41 @@
                 updatePreview();
             }
         });
+    </script>
+
+    <!-- Existing Recipes Section at Bottom -->
+    <div style="max-width: 1400px; margin: 40px auto 20px; padding: 0 20px;">
+        <div class="panel">
+            <h2>📖 Existing TurboChef Recipe Library</h2>
+            <p style="color: #6b7280; margin-bottom: 20px;">Click any recipe below to load it into the programmer above</p>
+            
+            <div id="existingRecipesList" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px;">
+                <!-- Recipes will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .existing-recipe-item {
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            padding: 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+
+        .existing-recipe-item:hover {
+            background: linear-gradient(135deg, #ddd6fe 0%, #c7d2fe 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            border-color: var(--primary);
+        }
+    </style>
+
+    <script>
+        // Call this function on page load
+        displayExistingRecipes();
     </script>
 </body>
 </html>
